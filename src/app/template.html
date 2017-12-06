@@ -1,0 +1,14 @@
+<div id="app" :class="domClass">
+  <div class="app-body">
+    <!-- activity component view -->
+    <page-transition :name="pageTransitionName">
+      <keep-alive :include="cachePages">
+        <component :is="activePage">
+          <!-- inactive components will be cached! -->
+        </component>
+      </keep-alive>
+    </page-transition>
+    <!-- frame component view -->
+    <router-view></router-view>
+  </div>
+</div>

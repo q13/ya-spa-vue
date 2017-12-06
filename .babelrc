@@ -1,0 +1,21 @@
+{
+  "presets": [
+    ["env", { 
+      "modules": false,
+      "targets": {
+        "browsers": ["> 1%", "last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.0"]
+      },
+      "useBuiltIns": true,
+      "loose": false
+    }],
+    "stage-0"
+  ],
+  "plugins": [
+    "babel-plugin-transform-class-properties",
+    "transform-runtime",
+    "babel-plugin-syntax-flow",
+    "babel-plugin-transform-flow-strip-types",
+    "transform-async-to-generator",
+    "syntax-dynamic-import"
+  ]
+}

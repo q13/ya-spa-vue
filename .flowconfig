@@ -1,0 +1,13 @@
+[ignore]
+.*/node_modules/.*
+.*/build/.*
+[include]
+./src/.*/*.vue
+./src/.*/*.js
+./ya/.*/*.vue
+./ya/.*/*.js
+[libs]
+flow-typed
+[options]
+module.file_ext=.vue
+module.file_ext=.js
