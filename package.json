@@ -1,5 +1,5 @@
 {
-  "name": "ya-spa-vue",
+  "name": "{{name}}",
   "description": "A project template base on vue",
   "version": "1.0.0",
   "author": "q13 <qsimon13@gmail.com>",
