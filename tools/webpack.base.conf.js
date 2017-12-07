@@ -1,11 +1,21 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('./config')
+var packageData = require('../package.json');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 var isProduction = process.env.NODE_ENV === 'production'
+
+var needBabelTransformDirs = [resolve('src'), resolve('ya'), resolve('node_modules/ya-ui-vue')];
+
+Object.keys(packageData.dependencies).forEach((dep) => {
+  const depPrefix = dep.slice(0, 4);
+  if (depPrefix === 'ipos') {
+    needBabelTransformDirs.push(dep);
+  }
+});
 
 module.exports = {
   entry: {
@@ -58,7 +68,7 @@ module.exports = {
     {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [resolve('src'), resolve('ya'), resolve('node_modules/ya-ui-vue')]
+      include: needBabelTransformDirs
     },
     {
       test: /\.html$/,

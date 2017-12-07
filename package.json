@@ -1,9 +1,10 @@
 {
-  "name": "{{name}}",
+  "name": "ya-spa-vue",
   "description": "A project template base on vue",
   "version": "1.0.0",
   "author": "q13 <qsimon13@gmail.com>",
   "private": true,
+  "main": "./index.js",
   "scripts": {
     "dev": "node tools/dev-server.js",
     "start": "node tools/dev-server.js",

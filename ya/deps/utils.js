@@ -427,11 +427,20 @@ const sessionStorage = function (key, value) {
   return result;
 };
 
+/**
+ * 获取app store
+ * @param {string} key 要获取的key
+ */
 const getAppStore = function (key) {
   const app = window.__app__;
   return app[key];
 };
 
+/**
+ * 设置app store， deep merge方式
+ * @param {string} key
+ * @param {Mix} value
+ */
 const setAppStore = function (key, value) {
   const app = window.__app__;
   const newValue = merge(app[key], value || {});
@@ -439,6 +448,33 @@ const setAppStore = function (key, value) {
   return newValue;
 };
 
+/**
+ * 获取app data
+ * @param {string} key
+ */
+const getAppData = function (key) {
+  const appData = getAppStore('data');
+  return appData[key];
+};
+
+/**
+ * 设置app data
+ * @param {string} key
+ * @param {Mix} value
+ */
+const setAppData = function (key, value) {
+  const appData = getAppStore('data');
+  const newValue = merge(appData[key] || {}, value || {});
+  appData[key] = newValue;
+  setAppStore('data', newValue);
+  return newValue;
+};
+/**
+ * 生成唯一id
+ */
+const generateID = function () {
+  return 'x' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
 export {
   BASE_PATH,
   c2s,
@@ -451,6 +487,9 @@ export {
   jumpTo,
   sessionStorage,
   getAppStore,
-  setAppStore
+  setAppStore,
+  getAppData,
+  setAppData,
+  generateID
 };
 
