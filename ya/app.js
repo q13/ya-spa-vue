@@ -7,6 +7,7 @@ import {
   mapState
 } from './deps/env';
 import './deps/base.css';
+import './deps/flexible';
 import {
   init as initRouter
 } from './deps/sitmap';
