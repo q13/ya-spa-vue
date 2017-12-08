@@ -76,7 +76,7 @@ async function extractRoutes(records: any, all: any) {
       }
       // 替换component
       let pageComponent = null;
-      let originComponent = validData.isValid ? route.component : () => import('../../src/pages/nil/index');
+      let originComponent = validData.isValid ? route.component : () => import('+/pages/nil/index');
       let ActivityComponent = null;
       /**
        * 创建Activity页面组件工厂，可多次创建ActivityComponent
