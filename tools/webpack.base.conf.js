@@ -16,6 +16,7 @@ Object.keys(packageData.dependencies).forEach((dep) => {
     exclueBabelTransformDirs.push(dep);
   }
 });
+// node_modules目录下除了ya-ui-vue和以ipos开头的包，其它都不走babel转义
 const excludeBabelRegexp = new RegExp('node_modules\/(?!(' + exclueBabelTransformDirs.join('|') + ')\/).*');
 
 module.exports = {
@@ -71,7 +72,7 @@ module.exports = {
       loader: 'babel-loader',
       include: function (src) {
         src = src.replace(/\\/g,"\/")
-        return !(excludeBabelRegexp.test(src))
+        return !excludeBabelRegexp.test(src)
       }
     },
     {

@@ -208,7 +208,7 @@ async function extractRoutes(records: any, all: any) {
         }
       };
       if (record.children && record.children.length) {
-        const childrenRoutes = extractRoutes(record.children, all);
+        const childrenRoutes = await extractRoutes(record.children, all);
         if (childrenRoutes && childrenRoutes.length) {
           route.children = childrenRoutes;
         }
@@ -258,7 +258,7 @@ async function extractNavs(records: any, all: any) {
       nav.link = location.origin + '/' + nav.link.slice(2);
     }
     if (record.children && record.children.length) {
-      const childrenNavs = extractNavs(record.children, all);
+      const childrenNavs = await extractNavs(record.children, all);
       if (childrenNavs && childrenNavs.length) {
         nav.children = childrenNavs;
       }

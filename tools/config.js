@@ -61,6 +61,13 @@ module.exports = {
         },
         changeOrigin: true
       },
+      '/prod-mobile': {
+        target: 'http://m.yazuo.com',
+        pathRewrite: {
+          '^/prod-mobile': '/'
+        },
+        changeOrigin: true
+      },
       '/test-membership': {
         target: 'http://common-t.4008827123.cn',
         pathRewrite: {

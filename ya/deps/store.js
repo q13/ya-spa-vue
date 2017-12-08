@@ -4,7 +4,7 @@
 import {
   merge
 } from 'lodash';
-import getStore from '../../src/app/sitmap';
+import getStore from '../../src/app/store';
 
 const state = function () {
   return {

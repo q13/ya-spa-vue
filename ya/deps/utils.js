@@ -392,7 +392,7 @@ const getProxyPrefix = function () {
  * 手动地址跳转
  */
 const jumpTo = function (options) {
-  const app = window.app;
+  const app = window.__app__;
   const router = app.router;
   router.push(options);
 };
