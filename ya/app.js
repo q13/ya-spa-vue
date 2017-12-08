@@ -34,7 +34,7 @@ export default (resolve) => {
     // 设置全局引用
     setAppStore('data', appData);
     const store = new Vuex.Store(initStore());
-	// 设置vuex state存储
+    // 设置vuex state存储
     store.commit('appDataChange', appData);
     // 设置全局引用
     setAppStore('store', store);

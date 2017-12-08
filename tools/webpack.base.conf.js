@@ -8,14 +8,15 @@ function resolve (dir) {
 }
 var isProduction = process.env.NODE_ENV === 'production'
 
-var needBabelTransformDirs = [resolve('src'), resolve('ya'), resolve('node_modules/ya-ui-vue')];
+var exclueBabelTransformDirs = ['ya-ui-vue'];
 
 Object.keys(packageData.dependencies).forEach((dep) => {
   const depPrefix = dep.slice(0, 4);
   if (depPrefix === 'ipos') {
-    needBabelTransformDirs.push(dep);
+    exclueBabelTransformDirs.push(dep);
   }
 });
+const excludeBabelRegexp = new RegExp('node_modules\/(?!(' + exclueBabelTransformDirs.join('|') + ')\/).*');
 
 module.exports = {
   entry: {
@@ -68,7 +69,10 @@ module.exports = {
     {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: needBabelTransformDirs
+      include: function (src) {
+        src = src.replace(/\\/g,"\/")
+        return !(excludeBabelRegexp.test(src))
+      }
     },
     {
       test: /\.html$/,
