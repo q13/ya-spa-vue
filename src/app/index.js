@@ -14,9 +14,9 @@ hook('prepare@app', function () {
 // App component挂钩，将component configs传递给resolve完成初始化
 hook('app@app', function (options) {
   const resolve = options.resolve;
-  const componentOptions = options.componentOptions;
-  resolve({
-    ...componentOptions,
+  const componentOptions = {
+    ...options.componentOptions,
     template
-  });
+  };
+  resolve(componentOptions);
 });
