@@ -23,6 +23,7 @@ import {
 } from 'lodash';
 import PageTransition from './page-transition';
 import '../src/app/index'; // 挂载业务框架
+console.log(1);
 
 export default (resolve) => {
   create();
