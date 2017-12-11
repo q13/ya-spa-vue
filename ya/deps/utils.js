@@ -443,9 +443,8 @@ const getAppStore = function (key) {
  */
 const setAppStore = function (key, value) {
   const app = window.__app__;
-  const newValue = merge(app[key], value || {});
-  app[key] = newValue;
-  return newValue;
+  app[key] = value;
+  return value;
 };
 
 /**

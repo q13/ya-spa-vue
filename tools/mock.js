@@ -8,6 +8,7 @@ var express = require('express')
 var mockApp = express()
 var bodyParser = require('body-parser')
 var fs = require("fs")
+var path = require('path')
 var Mock = require('mockjs')
 
 // port 
@@ -17,6 +18,8 @@ process.argv.slice(2).forEach(arg => {
   argvs[arr[0]] = arr[1]
 })
 let port = argvs.port || 3001
+
+const dataSourceDir = path.normalize(__dirname + '/../src/mock')
 
 mockApp.use(bodyParser.json({limit: '1mb'}))  //这里指定参数使用 json 格式
 mockApp.use(bodyParser.urlencoded({
@@ -39,11 +42,11 @@ function mockToRap(req, res) {
   //if(/\.json/.test(req.url)) {
   if (!projectId) {
     let data = '{}'
-    let filePath = '../src/mock' + req.url + '.js'
+    let filePath = dataSourceDir + '/' + req.url + '.js'
     try {
       data = fs.readFileSync(filePath, 'utf8')
     } catch (evt) {
-      filePath = '../src/mock' + req.url + '.json'
+      filePath = dataSourceDir + '/' + req.url + '.json'
       data = fs.readFileSync(filePath, 'utf8')
     }
     // 自定义mock数据占位符

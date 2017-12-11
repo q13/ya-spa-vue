@@ -130,6 +130,7 @@ a {
 a:hover {
   color: #108ee9;
   transition: color .3s ease;
+  text-decoration: none;
 }
 
 .v a {

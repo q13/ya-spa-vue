@@ -53,6 +53,7 @@ export default {
   float: left;
   width: 262px;
   height: 170px;
+  background: url(./page-error.png) no-repeat;
 }
 .message {
   font-size: 14px;

@@ -299,12 +299,16 @@ function getSemanticPageName(record, records) {
  * 获取family access conditions
  */
 async function getFamilyAccessConditions(record: any, records: any) {
+  const store = getAppStore('store'); // 获取保存的vuex store引用
   const familyRecords = getFamilyRecords(record, records);
   let isValid = true;
   let props = {};
   for (let i = 0; i < familyRecords.length; i++) {
     const record = familyRecords[i];
-    let result = await hook.exe('access-validation@route', record);
+    let result = await hook.exe('validate@route', {
+      record,
+      store
+    });
     result = result ? [].concat(result) : [];
     if (result.some((item) => { // 验证中断方式
       if (!item.isValid) {
