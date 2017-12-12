@@ -5,3 +5,4 @@ export {
 };
 // 继承ya模板目录下工具库
 export * from '+/deps/utils';
+var test = 1;
