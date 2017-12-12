@@ -491,6 +491,3 @@ export {
   setAppData,
   generateID
 };
-
-var test = 1;
-
