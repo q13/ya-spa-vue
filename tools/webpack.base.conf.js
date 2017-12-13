@@ -8,17 +8,6 @@ function resolve (dir) {
 }
 var isProduction = process.env.NODE_ENV === 'production'
 
-var exclueBabelTransformDirs = ['ya-ui-vue'];
-
-Object.keys(packageData.dependencies).forEach((dep) => {
-  const depPrefix = dep.slice(0, 4);
-  if (depPrefix === 'ipos') {
-    exclueBabelTransformDirs.push(dep);
-  }
-});
-// node_modules目录下除了ya-ui-vue和以ipos开头的包，其它都不走babel转义
-const excludeBabelRegexp = new RegExp('node_modules\/(?!(' + exclueBabelTransformDirs.join('|') + ')\/).*');
-
 module.exports = {
   entry: {
     app: './ya/index.js'
@@ -72,8 +61,16 @@ module.exports = {
       test: /\.js$/,
       loader: 'babel-loader',
       include: function (src) {
-        src = src.replace(/\\/g,"\/")
-        return !excludeBabelRegexp.test(src)
+        src = src.split('\\').join('/')
+        if (src.search('node_modules') === -1) {
+          return true
+        } else {
+          // node_modules目录下除了ya-ui-vue和以ipos开头的包，其它都不走babel转义
+          if (src.search('node_modules/ya-ui-vue') >= 0 || src.search('node_modules/ipos-') >= 0) {
+            return true
+          }
+        }
+        return false
       }
     },
     {

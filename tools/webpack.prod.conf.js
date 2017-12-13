@@ -8,6 +8,7 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -80,6 +81,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       name: 'manifest',
       chunks: ['vendor']
     }),
+    new ParseAtFlagPlugin()
     // copy custom static assets
     // new CopyWebpackPlugin([
     //   {
