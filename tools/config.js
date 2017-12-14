@@ -48,14 +48,14 @@ module.exports = {
         changeOrigin: true
       },
       '/test-mobile': {
-        target: 'http://testop.ipos.yazuo.com',
+        target: 'http://common-t.4008827123.cn',
         pathRewrite: {
           '^/test-mobile': '/'
         },
         changeOrigin: true
       },
       '/dev-mobile': {
-        target: 'http://devtop.ipos.yazuo.com',
+        target: 'http://common-d.4008827123.cn',
         pathRewrite: {
           '^/dev-mobile': '/'
         },
