@@ -12,10 +12,6 @@ import {
 const BASE_PATH = '/'; // 总是相对于html
 const c2s = (() => {
   var ajaxSources = []; // 存储ajax取消token存储
-  const app = window.__app__;
-  const alert = app.methods.alert; // 业务层存储alert引用
-  const showIndicator = app.methods.showIndicator || (() => {}); // 显示加载指示器
-  const hideIndicator = app.methods.hideIndicator || (() => {}); // 隐藏加载指示器
   return (ajaxOptions, {
     mask = true,
     ajaxType = 'ignore', // 防止二次提交 ignore(等上次请求完才能发请求)/abort(直接中断上次请求)/none(可发多个相同请求)
@@ -26,6 +22,10 @@ const c2s = (() => {
     autoTry = false, // 是否是自动发起的请求尝试
     customCallback = false // 是否自定义callback
   } = {}) => {
+    const app = window.__app__;
+    const alert = app.methods.alert; // 业务层存储alert引用
+    const showIndicator = app.methods.showIndicator || (() => {}); // 显示加载指示器
+    const hideIndicator = app.methods.hideIndicator || (() => {}); // 隐藏加载指示器
     const url = ajaxOptions.url;
     if (autoApplyUrlPrefix) {
       ajaxOptions.url = BASE_PATH + url;
