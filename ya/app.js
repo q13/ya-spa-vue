@@ -6,7 +6,6 @@ import {
   VueRouter,
   mapState
 } from './deps/env';
-import './deps/flexible';
 import {
   init as initRouter
 } from './deps/sitmap';
