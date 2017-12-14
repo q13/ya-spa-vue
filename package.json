@@ -24,7 +24,6 @@
     "@tweenjs/tween.js": "17.1.1",
     "axios": "0.16.2",
     "babel-polyfill": "6.26.0",
-    "decimal": "0.0.2",
     "echarts": "3.7.2",
     "element-dataset": "2.2.6",
     "fastclick": "1.0.6",
