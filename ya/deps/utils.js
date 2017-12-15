@@ -474,6 +474,60 @@ const setAppData = function (key, value) {
 const generateID = function () {
   return 'x' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
+
+/**
+ * 自定义log屏幕打印
+ * @param {string} message
+ * @param {string} pattern
+ */
+const log = function (message, pattern) {
+  pattern = pattern || 'append';
+  let logDom = document.getElementById('app-log');
+  let closeHandlerDom = null;
+  if (!logDom) {
+    logDom = document.createElement('div');
+    logDom.id = 'app-log';
+    Object.assign(logDom.style, {
+      display: 'none',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '80%',
+      'margin-left': '10%',
+      'max-height': '300px',
+      overflow: 'auto',
+      'z-index': '100000',
+      background: 'white',
+      border: '1px solid #000000',
+      'box-shadow': '2px 2px 4px #333333',
+      'font-size': '16px'
+    });
+    closeHandlerDom = document.createElement('span');
+    Object.assign(closeHandlerDom.style, {
+      position: 'absolute',
+      top: '4px',
+      right: '4px',
+      'line-height': '1em'
+    });
+    closeHandlerDom.addEventListener('click', () => {
+      logDom.style.display = 'none';
+    });
+    closeHandlerDom.innerHTML = '&times;';
+    document.body.appendChild(logDom);
+    logDom.appendChild(closeHandlerDom);
+  }
+  logDom.style.display = 'block';
+  let messageDom = document.createElement('p');
+  Object.assign(messageDom.style, {
+    border: '1px solid #333333'
+  });
+  messageDom.innerHTML = message;
+  if (pattern === 'clear') {
+    logDom.innerHTML = '';
+  }
+  logDom.appendChild(messageDom);
+};
+
 export {
   BASE_PATH,
   c2s,
@@ -489,5 +543,6 @@ export {
   setAppStore,
   getAppData,
   setAppData,
-  generateID
+  generateID,
+  log
 };
