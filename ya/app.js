@@ -33,7 +33,9 @@ export default (resolve) => {
     const store = new Vuex.Store(initStore());
     // 设置全局引用
     setAppStore('store', store);
-    const { appData, routerOptions = {} } = await hook.exe('prepare@app'); // prepare可能会用到store引用
+    const { appData, routerOptions = {} } = await hook.exe('prepare@app', { // prepare可能会用到store引用
+      store
+    });
     // 设置全局引用
     setAppStore('data', appData);
     // 设置vuex state存储
