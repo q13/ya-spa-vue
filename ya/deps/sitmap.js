@@ -160,8 +160,22 @@ async function extractRoutes(records: any, all: any) {
         }
       });
       // 自定义route enter/update 进入行为
-      const handleRouteChangeTo = (to) => {
-        if (to.meta.uid === route.meta.uid) {
+      const handleRouteChangeTo = (to, next) => {
+        async function exe () {
+          let result = await hook.exe('switch@route', {
+            route: to,
+            store,
+            activePage: WrapperComponent
+          });
+          if (typeof result !== 'undefined') {
+            result = [].concat(result);
+            if (result.some((value) => {
+              return value === false;
+            })) {
+              next(false);
+              return; // 给予拦截机会
+            }
+          }
           store.commit('pageChange', WrapperComponent);
           // 是否页面独占浏览器窗口
           if (onlyPage === true) {
@@ -177,6 +191,13 @@ async function extractRoutes(records: any, all: any) {
             const routeUpdated = pageComponent.$options.routeUpdated;
             routeUpdated && routeUpdated.call(pageComponent, to);
           }
+          // route向下传递
+          next();
+        }
+        if (to.meta.uid === route.meta.uid) {
+          exe();
+        } else {
+          next();
         }
       };
       // 自定义route update/leave 离开行为
@@ -192,13 +213,13 @@ async function extractRoutes(records: any, all: any) {
       const FrameComponent = route.frame;
       let FrameProxyComponent = route.component = {
         beforeRouteEnter(to, from, next) {
-          next();
-          handleRouteChangeTo(to);
+          // next();
+          handleRouteChangeTo(to, next);
         },
         beforeRouteUpdate(to, from, next) {
-          next();
+          // next();
           handleRouteChangeFrom(from);
-          handleRouteChangeTo(to);
+          handleRouteChangeTo(to, next);
         },
         beforeRouteLeave(to, from, next) {
           next();
