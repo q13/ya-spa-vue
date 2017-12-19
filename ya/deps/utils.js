@@ -22,10 +22,10 @@ const c2s = (() => {
     autoTry = false, // 是否是自动发起的请求尝试
     customCallback = false // 是否自定义callback
   } = {}) => {
-    const app = window.__app__;
-    const alert = app.methods.alert; // 业务层存储alert引用
-    const showIndicator = app.methods.showIndicator || (() => {}); // 显示加载指示器
-    const hideIndicator = app.methods.hideIndicator || (() => {}); // 隐藏加载指示器
+    const appMethods = getAppStore('methods');
+    const alert = appMethods.alert; // 业务层存储alert引用
+    const showIndicator = appMethods.showIndicator || (() => {}); // 显示加载指示器
+    const hideIndicator = appMethods.hideIndicator || (() => {}); // 隐藏加载指示器
     const url = ajaxOptions.url;
     if (autoApplyUrlPrefix) {
       ajaxOptions.url = BASE_PATH + url;
@@ -392,8 +392,7 @@ const getProxyPrefix = function () {
  * 手动地址跳转
  */
 const jumpTo = function (options) {
-  const app = window.__app__;
-  const router = app.router;
+  const router = getAppStore('router');
   router.push(options);
 };
 
@@ -427,13 +426,19 @@ const sessionStorage = function (key, value) {
   return result;
 };
 
+// 设置app命名空间占用
+var appStore = {
+  methods: {}, // 存储不同平台同一方法实现
+  data: null, // 业务数据存储
+  store: null, // vuex
+  router: null // vue-router
+};
 /**
  * 获取app store
  * @param {string} key 要获取的key
  */
 const getAppStore = function (key) {
-  const app = window.__app__;
-  return app[key];
+  return appStore[key];
 };
 
 /**
@@ -442,8 +447,7 @@ const getAppStore = function (key) {
  * @param {Mix} value
  */
 const setAppStore = function (key, value) {
-  const app = window.__app__;
-  app[key] = value;
+  appStore[key] = value;
   return value;
 };
 
