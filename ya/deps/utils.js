@@ -350,6 +350,9 @@ const getDocumentTitle = function () {
  */
 const setDocumentTitle = function (title) {
   document.getElementsByTagName('title')[0].innerHTML = title;
+  window.AlipayJSBridge && window.AlipayJSBridge.call('setTitle', { // 支付宝修改title的方式
+    title: title
+  });
 };
 
 /**
