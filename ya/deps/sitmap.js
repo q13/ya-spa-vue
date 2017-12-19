@@ -12,7 +12,9 @@ import {
 } from 'lodash';
 import hook from './hook';
 import {
-  getAppStore
+  getAppStore,
+  getUrlQueryValue,
+  setDocumentTitle
 } from './utils';
 import raf from 'raf';
 // 获取app级别的sitmap配置
@@ -57,6 +59,17 @@ async function extractRoutes(records: any, all: any) {
       const pageName = getSemanticPageName(record, all);
       // 路由访问控制，层层向上继承，严格满足每一层级限制，默认permission约束
       const validData = await getFamilyAccessConditions(record, all);
+      // 获取documentTitle设定
+      let documentTitle = getUrlQueryValue('documentTitle') || ''; // 地址传参为第一优先级
+      if (typeof record.documentTitle === 'undefined') {
+        if (!documentTitle) { // 如果record设定和地址传参都为空，则不设置document title
+          documentTitle = false;
+        }
+      } else {
+        if (!documentTitle) {
+          documentTitle = record.documentTitle;
+        }
+      }
 
       // 默认route param以props方式传递
       if (!validData.isValid) {
@@ -190,6 +203,10 @@ async function extractRoutes(records: any, all: any) {
             // 调用routeUpdated回调
             const routeUpdated = pageComponent.$options.routeUpdated;
             routeUpdated && routeUpdated.call(pageComponent, to);
+          }
+          // 设置页面title
+          if (documentTitle !== false) {
+            setDocumentTitle(documentTitle);
           }
           // route向下传递
           next();
