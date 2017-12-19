@@ -535,6 +535,20 @@ const log = function (message, pattern) {
   logDom.appendChild(messageDom);
 };
 
+/**
+ * 获取window scrollTop
+ */
+const getWindowScrollTop = function () {
+  return document.body.scrollTop + document.documentElement.scrollTop;
+};
+
+/**
+ * 回到顶部
+ */
+const gotoWinTop = function () {
+  window.scrollTo(0, 0);
+};
+
 export {
   BASE_PATH,
   c2s,
@@ -551,5 +565,7 @@ export {
   getAppData,
   setAppData,
   generateID,
-  log
+  log,
+  getWindowScrollTop,
+  gotoWinTop
 };
