@@ -20,7 +20,8 @@ const c2s = (() => {
     silentError = false, // 默认提示错误
     forceMock = false, // 是否强制走本地mock服务
     autoTry = false, // 是否是自动发起的请求尝试
-    customCallback = false // 是否自定义callback
+    customCallback = false, // 是否自定义callback
+    callbackCoverServer = false // onError/onCallback是否覆盖server error
   } = {}) => {
     const appMethods = getAppStore('methods');
     const alert = appMethods.alert; // 业务层存储alert引用
@@ -303,6 +304,13 @@ const c2s = (() => {
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', err);
+        }
+        if (callbackCoverServer) {
+          if (customCallback) {
+            onCallback(err);
+          } else {
+            onError(err);
+          }
         }
         clearAjaxSource();
         clearMask();
