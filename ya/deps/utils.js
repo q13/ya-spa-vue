@@ -484,6 +484,17 @@ const setAppData = function (key, value) {
   return newValue;
 };
 /**
+ * 清除app data
+ * @param {string} key
+ */
+const removeAppData = function (key) {
+  const appData = getAppStore('data');
+  const value = appData[key];
+  delete appData[key];
+  setAppStore('data', appData);
+  return value;
+};
+/**
  * 生成唯一id
  */
 const generateID = function () {
@@ -572,6 +583,7 @@ export {
   setAppStore,
   getAppData,
   setAppData,
+  removeAppData,
   generateID,
   log,
   getWindowScrollTop,
