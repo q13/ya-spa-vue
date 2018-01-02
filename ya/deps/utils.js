@@ -567,6 +567,126 @@ const getWindowScrollTop = function () {
 const gotoWinTop = function () {
   window.scrollTo(0, 0);
 };
+/**
+ * 异步加载js
+ */
+const asyncLoadJs = (function () {
+  var store = []; // 存储加载后的依赖JS库信息
+  return function (deps, callback) {
+    // TODO: 考虑Async机制
+    deps = [].concat(deps);
+    run(function*() {
+      let dep = deps.shift();
+      let flag = true;
+      while (dep && flag) {
+        flag = yield create(dep);
+        dep = deps.shift();
+      }
+    }, callback);
+    /**
+     * 执行器
+     * @param  {[type]}   genFn    [description]
+     * @param  {Function} callback [description]
+     * @return {[type]}            [description]
+     */
+    function run(genFn, callback) {
+      var gen = genFn();
+
+      function next(data) {
+        var r = gen.next(data);
+        if (r.done) {
+          callback && callback(true);
+          return;
+        }
+        r.value.then(function (data) {
+          next(data);
+        }).catch(function (data) {
+          next(false);
+          callback && callback(false, data);
+        });
+      }
+      next();
+    }
+    /**
+     * 异步按序执行，返回一个Promise对象
+     * @param  {[type]} url [description]
+     * @return {[type]}     [description]
+     */
+    function create(url) {
+      if (url.slice(0, 1) !== '/' && url.slice(0, 4) !== 'http') {
+        url = BASE_PATH + url;
+      }
+      var data = store.find((itemData) => {
+        return itemData.url === url;
+      });
+      var p;
+      if (!data) {
+        p = new Promise(function (resolve, reject) {
+          var scriptDom = document.createElement('script');
+          scriptDom.src = url;
+          scriptDom.onload = scriptDom.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
+              this.onload = this.onreadystatechange = null;
+              // 都成功执行回调
+              resolve(url);
+            }
+          };
+          scriptDom.onerror = function () {
+            reject(url);
+          };
+          document.getElementsByTagName('head')[0].appendChild(scriptDom);
+        });
+        store.push({
+          url: url,
+          promise: p
+        });
+      } else {
+        p = data.promise;
+      }
+      return p;
+    }
+  };
+}());
+
+/**
+ * 异步加载css
+ */
+const asyncLoadCss = (function () {
+  var store = {};
+  return function (deps, callback) {
+    deps = [].concat(deps);
+    Promise.all(deps.map((dep) => {
+      let url = '';
+      if (dep.slice(0, 1) !== '/' && dep.slice(0, 4) !== 'http') {
+        url = BASE_PATH + dep;
+      } else {
+        url = dep;
+      }
+      let p = store[url];
+      if (!p) {
+        p = new Promise(function (resolve, reject) {
+          let linkDom = document.createElement('link');
+          linkDom.rel = 'stylesheet';
+          linkDom.type = 'text/css';
+          linkDom.href = url;
+          document.getElementsByTagName('head')[0].appendChild(linkDom);
+          linkDom.onload = function () {
+            resolve();
+          };
+          linkDom.onerror = function () {
+            reject();
+          };
+        });
+        store[url] = p;
+      }
+      return p;
+    })).then(function () {
+      callback();
+    }).catch(function (evt) {
+      console.log(evt);
+    });
+  }
+}());
 
 export {
   BASE_PATH,
@@ -587,5 +707,7 @@ export {
   generateID,
   log,
   getWindowScrollTop,
-  gotoWinTop
+  gotoWinTop,
+  asyncLoadCss,
+  asyncLoadJs
 };
