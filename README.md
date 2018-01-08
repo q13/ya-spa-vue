@@ -40,7 +40,7 @@ npm run mock
 
 ### 开发 
 
-<img alt="目录结构" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/develop.png" />
+<img alt="目录结构" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/dirs.png" />
 
 使用支持**eslint**的Editor或IDE进行开发，**.eslintrc.json**默认在项目根目录下
 
@@ -49,5 +49,15 @@ npm run mock
 #### App
 
 目录位置**/src/app/**
+
+<img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/app.png" />
+
+* **index.js：** App级别的公共逻辑放到位置，构建项目整体结构，粘合页面逻辑（page）和模块逻辑（module）
+* **preset.styl：** App预设样式
+* **sitmap.js：** 网站地图，配置路由和导航信息
+* **store.js：** 配置vuex store
+* **style.styl：** App框架样式
+* **template.html：** App模板结构
+
 
 
