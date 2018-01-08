@@ -1,6 +1,7 @@
 # Ya spa template
 
 一套基于vue搭建的项目模板，适应多终端平台（PC/Mobile），不同类型项目实现，如基于会员类型构建的管理系统，移动端功能webapp等等。
+
 **关键字：职责分担，最小化关注范围，开箱即用，响应式重于命令式，懒加载加持**
 ## 安装
 
@@ -48,7 +49,7 @@ npm run mock
 
 #### App
 
-目录位置**/src/app/**
+目录位置 **/src/app/**
 
 <img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/app.png" />
 
