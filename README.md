@@ -1,4 +1,4 @@
-# Ya spa template
+# A Ya SPA template
 
 一套基于vue搭建的项目模板，适应多终端平台（PC/Mobile），不同类型项目实现，如基于会员类型构建的管理系统，移动端功能webapp等等。
 
@@ -41,7 +41,7 @@ npm run mock
 
 ### 开发 
 
-<img alt="目录结构" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/dirs.png" />
+<img alt="目录结构" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/dir.png" />
 
 使用支持**eslint**的Editor或IDE进行开发，**.eslintrc.json**默认在项目根目录下
 
