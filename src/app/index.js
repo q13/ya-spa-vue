@@ -3,6 +3,7 @@
  */
 import hook from '+/deps/hook';
 import template from './template.html';
+import '../widgets/themes/ya/index.styl';
 
 // 数据挂钩
 hook('prepare@app', function () {
