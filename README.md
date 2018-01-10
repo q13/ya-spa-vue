@@ -89,6 +89,6 @@ npm run mock
 
 ### 其它
 
-* **/src/mock/**放置mock接口文件，参考 [mock官方文档](http://mockjs.com/)
-* **/src/deps/**放置项目依赖文件，包括静态资源文件如图片，svg，iconfont，工具库utils等等
+* **/src/mock/** 放置mock接口文件，参考 [mock官方文档](http://mockjs.com/)
+* **/src/deps/** 放置项目依赖文件，包括静态资源文件如图片，svg，iconfont，工具库utils等等
 
