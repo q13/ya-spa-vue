@@ -53,12 +53,20 @@ npm run mock
 
 <img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/app.png" />
 
-* **index.js：** App级别的公共逻辑放到位置，构建项目整体结构，粘合页面逻辑（page）和模块逻辑（module）
+* **index.js：** App级别的公共逻辑放置位置，构建项目整体结构，粘合页面逻辑（page）和模块逻辑（module）
 * **preset.styl：** App预设样式
 * **sitmap.js：** 网站地图，配置路由和导航信息
 * **store.js：** 配置vuex store
 * **style.styl：** App框架样式
 * **template.html：** App模板结构
+
+### Page
+
+目录位置 **/src/pages/**
+
+<img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/page.png" />
+
+页面逻辑放置位置，以目录划分页面功能，多目录层级组织方式，
 
 
 
