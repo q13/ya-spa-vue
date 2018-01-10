@@ -64,7 +64,7 @@ npm run mock
 
 目录位置 **/src/pages/**
 
-<img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/page.png" />
+<img alt="page" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/page.png" />
 
 页面逻辑放置位置，以目录划分页面功能，多目录层级组织方式，文件组织方式如下：
 
@@ -77,12 +77,12 @@ npm run mock
 
 业务功能模块放置位置，可能在项目范围内被多个页面逻辑多次引用，以目录划分模块功能，多目录扁平化组织方式，便于引用，文件组织方式参考**page**约定。
 
-<img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/module.png" />
+<img alt="module" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/module.png" />
 
 ### widgets
 
 通用组件库放置位置，不和业务逻辑产生强耦合，可跨项目使用。组件和主题样式组织方式如下图：
 
-
+<img alt="widget" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/widget.png" />
 
 
