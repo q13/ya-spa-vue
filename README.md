@@ -85,5 +85,10 @@ npm run mock
 
 <img alt="widget" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/widget.png" />
 
-**特别要注意的：** 优先采用**ya-ui-vue**对第三方库**element-ui**、**mint-ui**、**antV**的封装
+**特别要注意的：** 优先采用**ya-ui-vue**对第三方库**element-ui**、**mint-ui**、**antV**的封装。
+
+### 其它
+
+* **/src/mock/**放置mock接口文件，参考 [mock官方文档](http://mockjs.com/)
+* **/src/deps/**放置项目依赖文件，包括静态资源文件如图片，svg，iconfont，工具库utils等等
 
