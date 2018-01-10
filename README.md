@@ -79,5 +79,10 @@ npm run mock
 
 <img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/module.png" />
 
+### widgets
+
+通用组件库放置位置，不和业务逻辑产生强耦合，可跨项目使用。组件和主题样式组织方式如下图：
+
+
 
 
