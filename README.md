@@ -66,7 +66,18 @@ npm run mock
 
 <img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/page.png" />
 
-页面逻辑放置位置，以目录划分页面功能，多目录层级组织方式，
+页面逻辑放置位置，以目录划分页面功能，多目录层级组织方式，文件组织方式如下：
+
+* 逻辑、结构、样式拆分组织（适合业务功能复杂的实现），对应文件命名**index.js、template.html、style.styl**，编写方式参考**demo1**
+* 逻辑、结构、样式组织成单文件（适合轻业务逻辑实现），对应文件命名**index.vue**，编写方式参考**demo2**
+
+### module
+
+目录位置 **/src/modules/**
+
+业务功能模块放置位置，可能在项目范围内被多个页面逻辑多次引用，以目录划分模块功能，多目录扁平化组织方式，便于引用，文件组织方式参考**page**约定。
+
+<img alt="app" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/module.png" />
 
 
 
