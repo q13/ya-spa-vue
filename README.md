@@ -85,5 +85,5 @@ npm run mock
 
 <img alt="widget" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/widget.png" />
 
-**特别要注意的：**优先采用**ya-ui-vue**对第三方库**element-ui**、**mint-ui**、**antV**的封装
+**特别要注意的：** 优先采用**ya-ui-vue**对第三方库**element-ui**、**mint-ui**、**antV**的封装
 
