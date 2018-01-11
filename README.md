@@ -124,6 +124,8 @@ npm run mock
   <y-chart :configs="configs" on-draw="handleDraw" ref="chart"></y-chart>
 <template>
 <script>
+  import 'ya-ui-vue/graph/g2';
+
   export default {
     data() {
       return {
