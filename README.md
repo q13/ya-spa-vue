@@ -60,7 +60,7 @@ npm run mock
 * **style.styl：** App框架样式
 * **template.html：** App模板结构
 
-### Page
+#### Page
 
 目录位置 **/src/pages/**
 
@@ -71,7 +71,7 @@ npm run mock
 * 逻辑、结构、样式拆分组织（适合业务功能复杂的实现），对应文件命名**index.js、template.html、style.styl**，编写方式参考**demo1**
 * 逻辑、结构、样式组织成单文件（适合轻业务逻辑实现），对应文件命名**index.vue**，编写方式参考**demo2**
 
-### module
+#### module
 
 目录位置 **/src/modules/**
 
@@ -79,7 +79,7 @@ npm run mock
 
 <img alt="module" src="https://raw.githubusercontent.com/q13/ya-spa-vue/master/example/images/module.png" />
 
-### widgets
+#### widgets
 
 通用组件库放置位置，不和业务逻辑产生强耦合，可跨项目使用。组件和主题样式组织方式如下图：
 
@@ -87,8 +87,70 @@ npm run mock
 
 **特别要注意的：** 优先采用**ya-ui-vue**对第三方库**element-ui**、**mint-ui**、**antV**的封装。
 
-### 其它
+#### 其它
 
 * **/src/mock/** 放置mock接口文件，参考 [mock官方文档](http://mockjs.com/)
 * **/src/deps/** 放置项目依赖文件，包括静态资源文件如图片，svg，iconfont，工具库utils等等
 
+### 特别的
+
+#### 图表库
+
+通过**ya-ui-vue**封装[AntV](https://antv.alipay.com/zh-cn/index.html)数据可视化解决方案，**G2、G6、F2**统一接口约定，对外输出Vue component。
+
+##### 使用方法
+
+已封装的图形组件如下：
+
+* **<y-chart />** 对应 **G2.Chart** ；
+* **<y-net />** 对应 **G6.Net** ；
+* **<y-tree />** 对应 **G6.Tree** ；
+* **<m-chart />** 对应 **F2.Chart** ；
+
+1、图形组件拥有的属性（props）
+
+* 与被封装的AntV图形组件属性一一对应，如**width**、**height**、**background** 等等；
+* 统一通过**configs** 属性对象设置所有图表配置项（优先级高于单独设置）。
+* **onDraw** 绑定用于图形对象的绘制和渲染（具体参考[pc-demo-front](http://git.yazuosoft.com/ipos/pc-demo-front)项目）。
+
+**特别要注意的：** 图形组件属性一旦被设置尽量不要再更改，突变属性值或者替换某一属性对象都将引起内部图形对象重新创建（Deep watch方式），性能低下，推荐采用API调用方式调整图形展现。
+
+2、图形组件拥有的方法（methods）
+
+所有图形组件对外暴露**graph** 方法，用于代理内部图形对象的API接口，使用方式如下：
+
+```vue
+<template> 
+  <y-chart :configs="configs" on-draw="handleDraw" ref="chart"></y-chart>
+<template>
+<script>
+  export default {
+    data() {
+      return {
+        configs: {
+          width: 500,
+          height: 500
+        }
+      };
+    },
+    methods: {
+      handleDraw(chart) {
+        chart.interval().position('genre*sold').color('genre');
+        chart.render();
+      }
+    },
+    mounted() {
+      const chart = this.$refs.chart;
+      const data = [
+        { genre: 'Sports', sold: 275 },
+        { genre: 'Strategy', sold: 115 },
+        { genre: 'Action', sold: 120 },
+        { genre: 'Shooter', sold: 350 },
+        { genre: 'Other', sold: 150 }
+      ];
+      // 调用source方法会自动触发onDraw回调
+      chart.graph('source', data);
+    }
+  };
+</script>
+```
