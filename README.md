@@ -102,10 +102,10 @@ npm run mock
 
 已封装的图形组件如下：
 
-* **<y-chart />** 对应 **G2.Chart** ；
-* **<y-net />** 对应 **G6.Net** ；
-* **<y-tree />** 对应 **G6.Tree** ；
-* **<m-chart />** 对应 **F2.Chart** ；
+* **\<y-chart /\>** 对应 **G2.Chart** ；
+* **\<y-net /\>** 对应 **G6.Net** ；
+* **\<y-tree /\>** 对应 **G6.Tree** ；
+* **\<m-chart /\>** 对应 **F2.Chart** ；
 
 1、图形组件拥有的属性（props）
 
