@@ -102,10 +102,10 @@ npm run mock
 
 已封装的图形组件如下：
 
-* **\<y-chart /\>** 对应 **G2.Chart** ；
-* **\<y-net /\>** 对应 **G6.Net** ；
-* **\<y-tree /\>** 对应 **G6.Tree** ；
-* **\<m-chart /\>** 对应 **F2.Chart** ；
+* **\<y-chart /\>** 对应 **[G2.Chart](https://antv.alipay.com/zh-cn/g2/3.x/api/chart.html)** ；
+* **\<y-net /\>** 对应 **[G6.Net](https://antv.alipay.com/zh-cn/g6/1.x/api/net.html)** ；
+* **\<y-tree /\>** 对应 **[G6.Tree](https://antv.alipay.com/zh-cn/g6/1.x/api/tree.html)** ；
+* **\<m-chart /\>** 对应 **[F2.Chart](https://antv.alipay.com/zh-cn/f2/3.x/api/chart.html)** ；
 
 1、图形组件拥有的属性（props）
 
