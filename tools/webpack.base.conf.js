@@ -67,7 +67,8 @@ module.exports = {
           return true
         } else {
           // node_modules目录下除了ya-ui-vue和以ipos开头的包，其它都不走babel转义
-          if (src.search('node_modules/ya-ui-vue') >= 0 || src.search('node_modules/ipos-') >= 0) {
+          // if (src.search('node_modules/ya-ui-vue') >= 0 || src.search('node_modules/ipos-') >= 0) {
+          if (src.search('node_modules/ipos-') >= 0) {
             return true
           }
         }
