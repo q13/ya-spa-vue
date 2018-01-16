@@ -8,7 +8,7 @@ ParseAtPlugin.prototype.apply = function(compiler) {
   compiler.plugin('normal-module-factory', function(compilation) {
     compilation.plugin("before-resolve", function (result, callback) {
       let { context, request,  dependencies} = result;
-      if (request.slice(0, 1) === '@') {
+      if (request.slice(0, 2) === '@/') {
         context = context.split('\\');
         let baseIndex = -1;
         // 默认从第一个遇到的src位置处替换，有较小概率遇到替换不正确现象（src重名）
