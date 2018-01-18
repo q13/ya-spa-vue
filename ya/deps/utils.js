@@ -43,12 +43,9 @@ const c2s = (() => {
       body: null
     };
     data.header = {
-      action: ajaxOptions.method,
-      user: '',
-      token: '',
-      fields: [],
-      sort: [],
-      filter: [],
+      app: '',
+      pageSize: 20,
+      pageNum: 1,
       ...(data.header || {})
     };
     if (typeof data.body === 'undefined') {

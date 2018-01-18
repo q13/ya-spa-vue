@@ -105,6 +105,7 @@ async function extractRoutes(records: any, all: any) {
                 resolve(exportDefault);
               }
             }).catch((evt) => { // 支付宝第一次扫码可能出现加载失败问题，提示信息后退并刷新
+              console.error(evt);
               alert('资源请求出现网络传输错误，请后退并重新刷新页面');
               router.go(-1); // 后退
               location.reload(); // 重新刷新
