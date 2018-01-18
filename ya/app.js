@@ -20,7 +20,6 @@ import {
   merge
 } from 'lodash';
 import PageTransition from './page-transition';
-import './deps/base.css';
 import '../src/app/index'; // 挂载业务框架
 
 export default (resolve) => {

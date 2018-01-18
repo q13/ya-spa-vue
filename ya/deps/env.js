@@ -1,7 +1,6 @@
 /**
  * App环境预设
  */
-import 'babel-polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
