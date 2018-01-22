@@ -156,3 +156,19 @@ npm run mock
   };
 </script>
 ```
+
+根据颜色命名
+@black-bg:    #333333;
+@gray-bg:    #ebebeb;
+
+抽象命名
+@primary-color          : @main-color;
+@info-color             : #2db7f5;
+
+业务命名
+@desk__normal      : @primary-color;  //空闲
+@desk__used      : @red-bg;    //占用
+
+视觉元素命名
+@text-color             : #495060;
+@font-size-base         : 14px;

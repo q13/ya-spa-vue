@@ -44,8 +44,8 @@ const c2s = (() => {
     };
     data.header = {
       app: '',
-      pageSize: 20,
-      pageNum: 1,
+      // pageSize: 20,
+      // pageNum: 1,
       ...(data.header || {})
     };
     if (typeof data.body === 'undefined') {
