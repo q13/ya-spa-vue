@@ -161,3 +161,4 @@ npm run mock
 
 * [文件命名和编码约束](https://github.com/q13/ya-spa-vue/blob/master/doc/common.md)
 * [Hook api](https://github.com/q13/ya-spa-vue/blob/master/doc/hook.md)
+* [Utils api](https://github.com/q13/ya-spa-vue/blob/master/doc/utils.md)
