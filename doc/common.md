@@ -14,7 +14,7 @@
 - 可选择使用 [flow](https://flow.org/) 约束；
 - 可选择使用语句结尾分号（要求项目一致）。
 
-### 三、CSS(SASS/LESS/STYLUS)编码规范
+### 三、CSS(sass/less/stylus)编码规范
 
 >遵循 [BEM](https://en.bem.info/) 命名规范
 
@@ -48,7 +48,7 @@
 @font-size-base         : 14px;
 ```
 
-### html
+### 四、html
 
 #### DTD方式
 采用html5的头声明方式 `<!DOCTYPE html>`，DTD声明前不能有任何输出。
