@@ -94,6 +94,24 @@ async function extractRoutes(records: any, all: any) {
       let pageComponent = null;
       let originComponent = validData.isValid ? route.component : () => import('+/pages/nil/index');
       let ActivityComponent = null;
+      if (route.frame || route.frames) {
+        if (!originComponent) {
+          originComponent = () => { // 有frame和frames的情况下如果不设置component，默认设置一个占位
+            return new Promise((resolve) => {
+              resolve({
+                default: {
+                  render() {
+                    return null;
+                  }
+                }
+              });
+            });
+          };
+        }
+      }
+      if (!originComponent) {
+        console.error('缺少route.component设置');
+      }
       /**
        * 创建Activity页面组件工厂，可多次创建ActivityComponent
        */
