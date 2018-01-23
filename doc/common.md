@@ -37,8 +37,8 @@
 ##### 3、业务命名
 
 ```stylus
-@desk__normal: @primary-color;  //空闲
-@desk__used: @red-bg;    //占用
+@desk__normal: @primary-color; //空闲
+@desk__used: @red-bg; //占用
 ```
 
 ##### 4、视觉元素命名
