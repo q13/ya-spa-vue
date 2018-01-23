@@ -95,6 +95,8 @@ app.use(hotMiddleware)
 // serve pure static assets
 // var staticPath = path.posix.join('/', '/')
 // app.use(staticPath, express.static('./static'))
+const SRC_DEPS_PATH = path.resolve(__dirname, '../src/deps/public') // 伺服/src/deps/public目录
+app.use('/static', express.static(SRC_DEPS_PATH))
 
 var uri = 'http://localhost:' + port
 

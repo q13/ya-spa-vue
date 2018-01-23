@@ -5,6 +5,7 @@ var rm = require('rimraf')
 var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
+var fsExtra = require('fs-extra');
 var config = require('./config')
 var webpackConfig = require('./webpack.prod.conf')
 
@@ -28,7 +29,8 @@ rm(path.join(config.build.assetsRoot, '/'), err => {
       console.log(chalk.red('  Build failed with errors.\n'))
       process.exit(1)
     }
-
+    // copy public assets
+    fsExtra.copySync(path.resolve(__dirname, '../src/deps/public'), path.resolve(__dirname, '../dist/static'))
     console.log(chalk.cyan('  Build complete.\n'))
     console.log(chalk.yellow(
       '  Tip: built files are meant to be served over an HTTP server.\n' +
