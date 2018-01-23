@@ -8,7 +8,10 @@ import {
 import {
   camelCase,
   upperFirst,
-  kebabCase
+  kebabCase,
+  merge,
+  mergeWith,
+  isArray
 } from 'lodash';
 import hook from './hook';
 import {
@@ -228,8 +231,9 @@ async function extractRoutes(records: any, all: any) {
       };
       // console.log('name', getSemanticPageName(record, all));
       // 创建Frame组件，支持activity和fragment两种路由形式
-      const FrameComponent = route.frame;
-      let FrameProxyComponent = route.component = {
+      const FrameComponents = route.frames; // 多个frame自动进入手动管理<route-view />模式，frame自己创建管理<router-view />
+      console.log(route);
+      const frameMixins = {
         beforeRouteEnter(to, from, next) {
           // next();
           handleRouteChangeTo(to, next);
@@ -246,25 +250,65 @@ async function extractRoutes(records: any, all: any) {
         destroyed() {
         }
       };
-      if (record.children && record.children.length) {
-        const childrenRoutes = await extractRoutes(record.children, all);
-        if (childrenRoutes && childrenRoutes.length) {
-          route.children = childrenRoutes;
+      if (Object.prototype.toString.call(FrameComponents) === '[object Object]') {
+        delete route.component; // 删除activity引用
+        let defaultFrame = FrameComponents.default; // 默认view
+        if (!defaultFrame) {
+          console.warn('未提供默认default view，自动创建');
+          defaultFrame = merge({
+            template: '<router-view></router-view>'
+          }, frameMixins);
+        } else {
+          const originFrame = defaultFrame;
+          // 附加activity mixins
+          defaultFrame = () => {
+            return new Promise((resolve) => {
+              originFrame().then((mod) => {
+                resolve(mergeWith(mod.default, {
+                  mixins: [frameMixins]
+                }, (target, source) => { // array 走合并
+                  if (isArray(target)) {
+                    return target.concat(source);
+                  }
+                }));
+              }).catch((evt) => {
+                console.error(evt);
+              });
+            });
+          };
         }
-        // 设置带router-view的template
-        // FrameProxyComponent.template = '<router-view></router-view>';
-        FrameProxyComponent.render = (h) => {
-          if (FrameComponent) {
-            return h('div', [
-              h('router-view'),
-              h(FrameComponent)
-            ]);
-          } else {
-            return h('router-view');
+        FrameComponents.default = defaultFrame; // 找回索引
+        route.components = FrameComponents;
+        // 下一层
+        if (record.children && record.children.length) {
+          const childrenRoutes = await extractRoutes(record.children, all);
+          if (childrenRoutes && childrenRoutes.length) {
+            route.children = childrenRoutes;
           }
-        };
+        }
       } else {
-        FrameProxyComponent.render = () => null;
+        const FrameComponent = route.frame; // 自动frame模式，此模式限制只存在一个frame嵌入页
+        let FrameProxyComponent = route.component = merge({}, frameMixins);
+        if (record.children && record.children.length) {
+          const childrenRoutes = await extractRoutes(record.children, all);
+          if (childrenRoutes && childrenRoutes.length) {
+            route.children = childrenRoutes;
+          }
+          // 设置带router-view的template
+          // FrameProxyComponent.template = '<router-view></router-view>';
+          FrameProxyComponent.render = (h) => {
+            if (FrameComponent) {
+              return h('div', [
+                h('router-view'),
+                h(FrameComponent)
+              ]);
+            } else {
+              return h('router-view');
+            }
+          };
+        } else {
+          FrameProxyComponent.render = () => null;
+        }
       }
       routes.push(route);
     }
