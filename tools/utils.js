@@ -44,7 +44,9 @@ exports.cssLoaders = function (options) {
     postcss: generateLoaders(),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus'),
-    less: generateLoaders('less')
+    less: generateLoaders('less'),
+    sass: generateLoaders('sass'),
+    scss: generateLoaders('sass')
   }
 }
 
