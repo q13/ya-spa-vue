@@ -1,5 +1,6 @@
 /**
  * 工具库
+ * @module @/deps/utils
  */
 import {
   Vue
@@ -9,19 +10,38 @@ import {
   merge
 } from 'lodash';
 
+/**
+ * @constant
+ * @type {String}
+ * @default
+ */
 const BASE_PATH = '/'; // 总是相对于html
+/**
+ * 前后端异步通信接口
+ * @param {Object} ajaxOptions - axios config
+ * @param {Object} options - 自定义配置项
+ * @param {Boolean} [options.mask = true] - 请求是否带遮罩
+ * @param {String} [options.ajaxType = 'ignore'] - 防止二次提交 ignore(等上次请求完才能发请求)/abort(直接中断上次请求)/none(可发多个相同请求)
+ * @param {Boolean} [options.withData = true] - 在ajaxType不等于none时起作用，作为二次提交的判定条件，是否连带提交参数判定
+ * @param {Boolean} [options.autoApplyUrlPrefix = true] - 自动附加请求前缀
+ * @param {Boolean} [options.silentError = false] - 默认提示错误
+ * @param {Boolean} [options.forceMock = false] - 是否强制走本地mock服务
+ * @param {Boolean} [options.autoTry = false] - 是否是自动发起的请求尝试
+ * @param {Boolean} [options.customCallback = false] - 是否自定义callback
+ * @param {Boolean} [options.callbackCoverServer = false] - onError/onCallback是否覆盖server error
+ */
 const c2s = (() => {
   var ajaxSources = []; // 存储ajax取消token存储
   return (ajaxOptions, {
     mask = true,
-    ajaxType = 'ignore', // 防止二次提交 ignore(等上次请求完才能发请求)/abort(直接中断上次请求)/none(可发多个相同请求)
-    withData = true, // 在ajaxType不等于none时起作用
-    autoApplyUrlPrefix = true, // 自动附加请求前缀
-    silentError = false, // 默认提示错误
-    forceMock = false, // 是否强制走本地mock服务
-    autoTry = false, // 是否是自动发起的请求尝试
-    customCallback = false, // 是否自定义callback
-    callbackCoverServer = false // onError/onCallback是否覆盖server error
+    ajaxType = 'ignore',
+    withData = true,
+    autoApplyUrlPrefix = true,
+    silentError = false,
+    forceMock = false,
+    autoTry = false,
+    customCallback = false,
+    callbackCoverServer = false
   } = {}) => {
     const appMethods = getAppStore('methods');
     const alert = appMethods.alert; // 业务层存储alert引用
@@ -316,7 +336,8 @@ const c2s = (() => {
   }
 })();
 /**
- * 获取对应key的查询参数
+ * 获取地址对应查询参数值
+ * @param {String} key - Query key
  */
 const getUrlQueryValue = function (key) {
   const search = location.search;
@@ -334,7 +355,7 @@ const getUrlQueryValue = function (key) {
 };
 
 /**
- * 根据query params获取平台名
+ * 获取平台名（内部根据platformName参数值判定）
  */
 const getPlatformName = function () {
   const platformName = getUrlQueryValue('platformName') || 'pc'; // 默认pc平台
@@ -342,7 +363,7 @@ const getPlatformName = function () {
 };
 
 /**
- * 根据query params获取页面title
+ * 获取页面title（内部根据title query param返回）
  */
 const getDocumentTitle = function () {
   const title = getUrlQueryValue('title') || ''; // Document title
@@ -350,8 +371,8 @@ const getDocumentTitle = function () {
 };
 
 /**
- * 设置document title
- * @param {string} title 文档名
+ * 设置Document title
+ * @param {String} title Document title
  */
 const setDocumentTitle = function (title) {
   document.getElementsByTagName('title')[0].innerHTML = title;
@@ -361,7 +382,7 @@ const setDocumentTitle = function (title) {
 };
 
 /**
- * 根据query params获取请求需要忽略的访问路径
+ * 根据ignorePrefix查询参数获取请求需要忽略的访问路径
  */
 const getRequestIgnorePrefix = function () {
   const pathPrefix = getUrlQueryValue('ignorePrefix') || ''; // 二级目录路径
@@ -370,6 +391,7 @@ const getRequestIgnorePrefix = function () {
 
 /**
  * 根据请求参数或者访问地址判断是否处于develop状态
+ * 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
  */
 const isDevelop = function () {
   const debugValue = getUrlQueryValue('develop') || '';
@@ -398,6 +420,7 @@ const getProxyPrefix = function () {
 };
 /**
  * 手动地址跳转
+ * @param {Object} options - $router.push(options)
  */
 const jumpTo = function (options) {
   const router = getAppStore('router');
@@ -406,6 +429,8 @@ const jumpTo = function (options) {
 
 /**
  * session storage操作
+ * @param {String} key - session key
+ * @param {*} value - session value
  */
 const sessionStorage = function (key, value) {
   var result;
@@ -443,16 +468,16 @@ var appStore = {
 };
 /**
  * 获取app store
- * @param {string} key 要获取的key
+ * @param {String} key - 要获取的key
  */
 const getAppStore = function (key) {
   return appStore[key];
 };
 
 /**
- * 设置app store， deep merge方式
- * @param {string} key
- * @param {Mix} value
+ * 设置app store， Deep merge方式
+ * @param {String} key - key
+ * @param {*} value - value
  */
 const setAppStore = function (key, value) {
   appStore[key] = value;
@@ -461,7 +486,7 @@ const setAppStore = function (key, value) {
 
 /**
  * 获取app data
- * @param {string} key
+ * @param {String} key - key
  */
 const getAppData = function (key) {
   const appData = getAppStore('data');
@@ -470,8 +495,8 @@ const getAppData = function (key) {
 
 /**
  * 设置app data
- * @param {string} key
- * @param {Mix} value
+ * @param {String} key - key
+ * @param {*} value - value
  */
 const setAppData = function (key, value) {
   const appData = getAppStore('data');
@@ -482,7 +507,7 @@ const setAppData = function (key, value) {
 };
 /**
  * 清除app data
- * @param {string} key
+ * @param {String} key - key
  */
 const removeAppData = function (key) {
   const appData = getAppStore('data');
@@ -500,8 +525,8 @@ const generateID = function () {
 
 /**
  * 自定义log屏幕打印
- * @param {string} message
- * @param {string} pattern
+ * @param {String} message - log message
+ * @param {String} [pattern = 'append'] - 信息显示方式：append（追加到上一条后面）; clear（先清屏）
  */
 const log = function (message, pattern) {
   pattern = pattern || 'append';
@@ -566,6 +591,8 @@ const gotoWinTop = function () {
 };
 /**
  * 异步加载js
+ * @param {(String|String[])} deps - 要加载的js列表
+ * @param {Function} callback - 加载后回调
  */
 const asyncLoadJs = (function () {
   var store = []; // 存储加载后的依赖JS库信息
@@ -582,9 +609,9 @@ const asyncLoadJs = (function () {
     }, callback);
     /**
      * 执行器
-     * @param  {[type]}   genFn    [description]
-     * @param  {Function} callback [description]
-     * @return {[type]}            [description]
+     * @param  {*}   genFn
+     * @param  {*} callback
+     * @return {*} 
      */
     function run(genFn, callback) {
       var gen = genFn();
@@ -606,8 +633,8 @@ const asyncLoadJs = (function () {
     }
     /**
      * 异步按序执行，返回一个Promise对象
-     * @param  {[type]} url [description]
-     * @return {[type]}     [description]
+     * @param  {*} url
+     * @return {*}
      */
     function create(url) {
       if (url.slice(0, 1) !== '/' && url.slice(0, 4) !== 'http') {
@@ -647,6 +674,8 @@ const asyncLoadJs = (function () {
 
 /**
  * 异步加载css
+ * @param {(String|String[])} deps - 要加载的js列表
+ * @param {Function} callback - 加载后回调
  */
 const asyncLoadCss = (function () {
   var store = {};
