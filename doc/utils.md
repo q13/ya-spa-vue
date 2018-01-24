@@ -1,8 +1,12 @@
 <a name="module_utils"></a>
 
 ## utils
-工具库
-引入方式 import utils from '@/deps/utils';
+
+工具库引入方式
+
+```javascript
+import utils from '@/deps/utils';
+```
 
 
 * [utils](#module_utils)
