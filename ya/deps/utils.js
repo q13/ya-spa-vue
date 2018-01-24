@@ -15,7 +15,7 @@ import {
  * @type {String}
  * @default
  */
-const BASE_PATH = '/'; // 总是相对于html
+export const BASE_PATH = '/'; // 总是相对于html
 /**
  * 前后端异步通信接口
  * @param {Object} ajaxOptions - axios config
@@ -30,7 +30,7 @@ const BASE_PATH = '/'; // 总是相对于html
  * @param {Boolean} [options.customCallback = false] - 是否自定义callback
  * @param {Boolean} [options.callbackCoverServer = false] - onError/onCallback是否覆盖server error
  */
-const c2s = (() => {
+export const c2s = (() => {
   var ajaxSources = []; // 存储ajax取消token存储
   return (ajaxOptions, {
     mask = true,
@@ -339,7 +339,7 @@ const c2s = (() => {
  * 获取地址对应查询参数值
  * @param {String} key - Query key
  */
-const getUrlQueryValue = function (key) {
+export const getUrlQueryValue = function (key) {
   const search = location.search;
   var value;
   if (search) {
@@ -357,7 +357,7 @@ const getUrlQueryValue = function (key) {
 /**
  * 获取平台名（内部根据platformName参数值判定）
  */
-const getPlatformName = function () {
+export const getPlatformName = function () {
   const platformName = getUrlQueryValue('platformName') || 'pc'; // 默认pc平台
   return platformName;
 };
@@ -365,7 +365,7 @@ const getPlatformName = function () {
 /**
  * 获取页面title（内部根据title query param返回）
  */
-const getDocumentTitle = function () {
+export const getDocumentTitle = function () {
   const title = getUrlQueryValue('title') || ''; // Document title
   return title;
 };
@@ -374,7 +374,7 @@ const getDocumentTitle = function () {
  * 设置Document title
  * @param {String} title Document title
  */
-const setDocumentTitle = function (title) {
+export const setDocumentTitle = function (title) {
   document.getElementsByTagName('title')[0].innerHTML = title;
   window.AlipayJSBridge && window.AlipayJSBridge.call('setTitle', { // 支付宝修改title的方式
     title: title
@@ -384,7 +384,7 @@ const setDocumentTitle = function (title) {
 /**
  * 根据ignorePrefix查询参数获取请求需要忽略的访问路径
  */
-const getRequestIgnorePrefix = function () {
+export const getRequestIgnorePrefix = function () {
   const pathPrefix = getUrlQueryValue('ignorePrefix') || ''; // 二级目录路径
   return pathPrefix;
 };
@@ -393,7 +393,7 @@ const getRequestIgnorePrefix = function () {
  * 根据请求参数或者访问地址判断是否处于develop状态
  * 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
  */
-const isDevelop = function () {
+export const isDevelop = function () {
   const debugValue = getUrlQueryValue('develop') || '';
   if (debugValue !== '') {
     return !!(debugValue / 1);
@@ -414,7 +414,7 @@ const isDevelop = function () {
 /**
  * 获取当前代理数据请求地址前缀
  */
-const getProxyPrefix = function () {
+export const getProxyPrefix = function () {
   const prefix = getUrlQueryValue('proxy') || 'mock'; // 代理前缀
   return prefix;
 };
@@ -422,7 +422,7 @@ const getProxyPrefix = function () {
  * 手动地址跳转
  * @param {Object} options - $router.push(options)
  */
-const jumpTo = function (options) {
+export const jumpTo = function (options) {
   const router = getAppStore('router');
   router.push(options);
 };
@@ -432,7 +432,7 @@ const jumpTo = function (options) {
  * @param {String} key - session key
  * @param {*} value - session value
  */
-const sessionStorage = function (key, value) {
+export const sessionStorage = function (key, value) {
   var result;
   if (window.sessionStorage) {
     const sessionStorage = window.sessionStorage;
@@ -470,7 +470,7 @@ var appStore = {
  * 获取app store
  * @param {String} key - 要获取的key
  */
-const getAppStore = function (key) {
+export const getAppStore = function (key) {
   return appStore[key];
 };
 
@@ -479,7 +479,7 @@ const getAppStore = function (key) {
  * @param {String} key - key
  * @param {*} value - value
  */
-const setAppStore = function (key, value) {
+export const setAppStore = function (key, value) {
   appStore[key] = value;
   return value;
 };
@@ -488,7 +488,7 @@ const setAppStore = function (key, value) {
  * 获取app data
  * @param {String} key - key
  */
-const getAppData = function (key) {
+export const getAppData = function (key) {
   const appData = getAppStore('data');
   return appData[key];
 };
@@ -498,7 +498,7 @@ const getAppData = function (key) {
  * @param {String} key - key
  * @param {*} value - value
  */
-const setAppData = function (key, value) {
+export const setAppData = function (key, value) {
   const appData = getAppStore('data');
   const newValue = merge(appData[key] || {}, value || {});
   appData[key] = newValue;
@@ -509,7 +509,7 @@ const setAppData = function (key, value) {
  * 清除app data
  * @param {String} key - key
  */
-const removeAppData = function (key) {
+export const removeAppData = function (key) {
   const appData = getAppStore('data');
   const value = appData[key];
   delete appData[key];
@@ -519,7 +519,7 @@ const removeAppData = function (key) {
 /**
  * 生成唯一id
  */
-const generateID = function () {
+export const generateID = function () {
   return 'x' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 };
 
@@ -528,7 +528,7 @@ const generateID = function () {
  * @param {String} message - log message
  * @param {String} [pattern = 'append'] - 信息显示方式：append（追加到上一条后面）; clear（先清屏）
  */
-const log = function (message, pattern) {
+export const log = function (message, pattern) {
   pattern = pattern || 'append';
   let logDom = document.getElementById('app-log');
   let closeHandlerDom = null;
@@ -579,11 +579,14 @@ const log = function (message, pattern) {
 /**
  * 获取window scrollTop
  */
-const getWindowScrollTop = function () {
+export const getWindowScrollTop = function () {
   return document.body.scrollTop + document.documentElement.scrollTop;
 };
 
-const gotoWinTop = function () {
+/**
+ * 回到顶部
+ */
+export const gotoWinTop = function () {
   window.scrollTo(0, 0);
 };
 /**
@@ -591,7 +594,7 @@ const gotoWinTop = function () {
  * @param {(String|String[])} deps - 要加载的js列表
  * @param {Function} callback - 加载后回调
  */
-const asyncLoadJs = (function () {
+export const asyncLoadJs = (function () {
   var store = []; // 存储加载后的依赖JS库信息
   return function (deps, callback) {
     // TODO: 考虑Async机制
@@ -674,7 +677,7 @@ const asyncLoadJs = (function () {
  * @param {(String|String[])} deps - 要加载的js列表
  * @param {Function} callback - 加载后回调
  */
-const asyncLoadCss = (function () {
+export const asyncLoadCss = (function () {
   var store = {};
   return function (deps, callback) {
     deps = [].concat(deps);
@@ -711,29 +714,83 @@ const asyncLoadCss = (function () {
   }
 }());
 
-export {
-  BASE_PATH,
-  c2s,
-  getUrlQueryValue,
-  getPlatformName,
-  getDocumentTitle,
-  setDocumentTitle,
-  getProxyPrefix,
-  isDevelop,
-  jumpTo,
-  sessionStorage,
-  getAppStore,
-  setAppStore,
-  getAppData,
-  setAppData,
-  removeAppData,
-  generateID,
-  log,
-  getWindowScrollTop,
-  /**
-   * 回到顶部
-   */
-  gotoWinTop,
-  asyncLoadCss,
-  asyncLoadJs
-};
+// export {
+//   BASE_PATH,
+//   /**
+//    * 前后端异步通信接口
+//    * @param {Object} ajaxOptions - axios config
+//    * @param {Object} options - 自定义配置项
+//    * @param {Boolean} [options.mask = true] - 请求是否带遮罩
+//    * @param {String} [options.ajaxType = 'ignore'] - 防止二次提交 ignore(等上次请求完才能发请求)/abort(直接中断上次请求)/none(可发多个相同请求)
+//    * @param {Boolean} [options.withData = true] - 在ajaxType不等于none时起作用，作为二次提交的判定条件，是否连带提交参数判定
+//    * @param {Boolean} [options.autoApplyUrlPrefix = true] - 自动附加请求前缀
+//    * @param {Boolean} [options.silentError = false] - 默认提示错误
+//    * @param {Boolean} [options.forceMock = false] - 是否强制走本地mock服务
+//    * @param {Boolean} [options.autoTry = false] - 是否是自动发起的请求尝试
+//    * @param {Boolean} [options.customCallback = false] - 是否自定义callback
+//    * @param {Boolean} [options.callbackCoverServer = false] - onError/onCallback是否覆盖server error
+//    */
+//   c2s,
+//   /**
+//    * 获取地址对应查询参数值
+//    * @param {String} key - Query key
+//    */
+//   getUrlQueryValue,
+//   /**
+//    * 获取平台名（内部根据platformName参数值判定）
+//    */
+//   getPlatformName,
+//   /**
+//    * 获取页面title（内部根据title query param返回）
+//    */
+//   getDocumentTitle,
+//   /**
+//    * 设置Document title
+//    * @param {String} title Document title
+//    */
+//   setDocumentTitle,
+//   /**
+//    * 获取当前代理数据请求地址前缀
+//    */
+//   getProxyPrefix,
+//   /**
+//    * 根据请求参数或者访问地址判断是否处于develop状态
+//    * 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
+//    */
+//   isDevelop,
+//   /**
+//    * 手动地址跳转
+//    * @param {Object} options - $router.push(options)
+//    */
+//   jumpTo,
+//   /**
+//    * session storage操作
+//    * @param {String} key - session key
+//    * @param {*} value - session value
+//    */
+//   sessionStorage,
+//   /**
+//    * 获取app store
+//    * @param {String} key - 要获取的key
+//    */
+//   getAppStore,
+//   /**
+//    * 设置app store
+//    * @param {String} key - key
+//    * @param {*} value - value
+//    */
+//   setAppStore,
+//   /**
+//    * 获取app data
+//    * @param {String} key - key
+//    */
+//   getAppData,
+//   setAppData,
+//   removeAppData,
+//   generateID,
+//   log,
+//   getWindowScrollTop,
+//   gotoWinTop,
+//   asyncLoadCss,
+//   asyncLoadJs
+// };
