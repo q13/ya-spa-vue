@@ -250,7 +250,7 @@ async function extractRoutes(records: any, all: any) {
       // console.log('name', getSemanticPageName(record, all));
       // 创建Frame组件，支持activity和fragment两种路由形式
       const FrameComponents = route.frames; // 多个frame自动进入手动管理<route-view />模式，frame自己创建管理<router-view />
-      console.log(route);
+      // console.log(route);
       const frameMixins = {
         beforeRouteEnter(to, from, next) {
           // next();
