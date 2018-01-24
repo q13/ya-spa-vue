@@ -5,29 +5,37 @@
 
 
 * [@/deps/utils](#module_@/deps/utils)
-    * [~BASE_PATH](#module_@/deps/utils..BASE_PATH) : <code>String</code>
-    * [~c2s](#module_@/deps/utils..c2s)
-    * [~asyncLoadJs](#module_@/deps/utils..asyncLoadJs)
-    * [~asyncLoadCss](#module_@/deps/utils..asyncLoadCss)
-    * [~getUrlQueryValue(key)](#module_@/deps/utils..getUrlQueryValue)
-    * [~getPlatformName()](#module_@/deps/utils..getPlatformName)
-    * [~getDocumentTitle()](#module_@/deps/utils..getDocumentTitle)
-    * [~setDocumentTitle(title)](#module_@/deps/utils..setDocumentTitle)
-    * [~getRequestIgnorePrefix()](#module_@/deps/utils..getRequestIgnorePrefix)
-    * [~isDevelop()](#module_@/deps/utils..isDevelop)
-    * [~getProxyPrefix()](#module_@/deps/utils..getProxyPrefix)
-    * [~jumpTo(options)](#module_@/deps/utils..jumpTo)
-    * [~sessionStorage(key, value)](#module_@/deps/utils..sessionStorage)
-    * [~getAppStore(key)](#module_@/deps/utils..getAppStore)
-    * [~setAppStore(key, value)](#module_@/deps/utils..setAppStore)
-    * [~getAppData(key)](#module_@/deps/utils..getAppData)
-    * [~setAppData(key, value)](#module_@/deps/utils..setAppData)
-    * [~removeAppData(key)](#module_@/deps/utils..removeAppData)
-    * [~generateID()](#module_@/deps/utils..generateID)
-    * [~log(message, [pattern])](#module_@/deps/utils..log)
-    * [~getWindowScrollTop()](#module_@/deps/utils..getWindowScrollTop)
-    * [~gotoWinTop()](#module_@/deps/utils..gotoWinTop)
+    * _static_
+        * [.gotoWinTop](#module_@/deps/utils.gotoWinTop)
+    * _inner_
+        * [~BASE_PATH](#module_@/deps/utils..BASE_PATH) : <code>String</code>
+        * [~c2s](#module_@/deps/utils..c2s)
+        * [~asyncLoadJs](#module_@/deps/utils..asyncLoadJs)
+        * [~asyncLoadCss](#module_@/deps/utils..asyncLoadCss)
+        * [~getUrlQueryValue(key)](#module_@/deps/utils..getUrlQueryValue)
+        * [~getPlatformName()](#module_@/deps/utils..getPlatformName)
+        * [~getDocumentTitle()](#module_@/deps/utils..getDocumentTitle)
+        * [~setDocumentTitle(title)](#module_@/deps/utils..setDocumentTitle)
+        * [~getRequestIgnorePrefix()](#module_@/deps/utils..getRequestIgnorePrefix)
+        * [~isDevelop()](#module_@/deps/utils..isDevelop)
+        * [~getProxyPrefix()](#module_@/deps/utils..getProxyPrefix)
+        * [~jumpTo(options)](#module_@/deps/utils..jumpTo)
+        * [~sessionStorage(key, value)](#module_@/deps/utils..sessionStorage)
+        * [~getAppStore(key)](#module_@/deps/utils..getAppStore)
+        * [~setAppStore(key, value)](#module_@/deps/utils..setAppStore)
+        * [~getAppData(key)](#module_@/deps/utils..getAppData)
+        * [~setAppData(key, value)](#module_@/deps/utils..setAppData)
+        * [~removeAppData(key)](#module_@/deps/utils..removeAppData)
+        * [~generateID()](#module_@/deps/utils..generateID)
+        * [~log(message, [pattern])](#module_@/deps/utils..log)
+        * [~getWindowScrollTop()](#module_@/deps/utils..getWindowScrollTop)
 
+<a name="module_@/deps/utils.gotoWinTop"></a>
+
+### @/deps/utils.gotoWinTop
+回到顶部
+
+**Kind**: static property of [<code>@/deps/utils</code>](#module_@/deps/utils)
 <a name="module_@/deps/utils..BASE_PATH"></a>
 
 ### @/deps/utils~BASE_PATH : <code>String</code>
@@ -233,11 +241,5 @@ session storage操作
 
 ### @/deps/utils~getWindowScrollTop()
 获取window scrollTop
-
-**Kind**: inner method of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils..gotoWinTop"></a>
-
-### @/deps/utils~gotoWinTop()
-回到顶部
 
 **Kind**: inner method of [<code>@/deps/utils</code>](#module_@/deps/utils)
