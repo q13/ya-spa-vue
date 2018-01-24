@@ -1,43 +1,45 @@
-<a name="module_@/deps/utils"></a>
+<a name="module_utils"></a>
 
-## @/deps/utils
+## utils
 工具库
+引入方式 import utils from '@/deps/utils';
 
 
-* [@/deps/utils](#module_@/deps/utils)
-    * [.BASE_PATH](#module_@/deps/utils.BASE_PATH) : <code>String</code>
-    * [.c2s](#module_@/deps/utils.c2s)
-    * [.getUrlQueryValue](#module_@/deps/utils.getUrlQueryValue)
-    * [.getPlatformName](#module_@/deps/utils.getPlatformName)
-    * [.getDocumentTitle](#module_@/deps/utils.getDocumentTitle)
-    * [.setDocumentTitle](#module_@/deps/utils.setDocumentTitle)
-    * [.getRequestIgnorePrefix](#module_@/deps/utils.getRequestIgnorePrefix)
-    * [.isDevelop](#module_@/deps/utils.isDevelop)
-    * [.getProxyPrefix](#module_@/deps/utils.getProxyPrefix)
-    * [.jumpTo](#module_@/deps/utils.jumpTo)
-    * [.sessionStorage](#module_@/deps/utils.sessionStorage)
-    * [.getAppStore](#module_@/deps/utils.getAppStore)
-    * [.setAppStore](#module_@/deps/utils.setAppStore)
-    * [.getAppData](#module_@/deps/utils.getAppData)
-    * [.setAppData](#module_@/deps/utils.setAppData)
-    * [.removeAppData](#module_@/deps/utils.removeAppData)
-    * [.generateID](#module_@/deps/utils.generateID)
-    * [.log](#module_@/deps/utils.log)
-    * [.getWindowScrollTop](#module_@/deps/utils.getWindowScrollTop)
-    * [.gotoWinTop](#module_@/deps/utils.gotoWinTop)
-    * [.asyncLoadJs](#module_@/deps/utils.asyncLoadJs)
-    * [.asyncLoadCss](#module_@/deps/utils.asyncLoadCss)
+* [utils](#module_utils)
+    * [.BASE_PATH](#module_utils.BASE_PATH) : <code>String</code>
+    * [.c2s](#module_utils.c2s) ⇒ <code>Promise</code>
+    * [.getUrlQueryValue](#module_utils.getUrlQueryValue) ⇒ <code>String</code>
+    * [.getPlatformName](#module_utils.getPlatformName) ⇒ <code>String</code>
+    * [.getDocumentTitle](#module_utils.getDocumentTitle) ⇒ <code>Stirng</code>
+    * [.setDocumentTitle](#module_utils.setDocumentTitle)
+    * [.getRequestIgnorePrefix](#module_utils.getRequestIgnorePrefix) ⇒ <code>String</code>
+    * [.isDevelop](#module_utils.isDevelop) ⇒ <code>Boolean</code>
+    * [.getProxyPrefix](#module_utils.getProxyPrefix) ⇒ <code>String</code>
+    * [.jumpTo](#module_utils.jumpTo)
+    * [.sessionStorage](#module_utils.sessionStorage) ⇒ <code>\*</code>
+    * [.getAppStore](#module_utils.getAppStore) ⇒ <code>\*</code>
+    * [.setAppStore](#module_utils.setAppStore) ⇒ <code>\*</code>
+    * [.getAppData](#module_utils.getAppData) ⇒ <code>\*</code>
+    * [.setAppData](#module_utils.setAppData) ⇒ <code>\*</code>
+    * [.removeAppData](#module_utils.removeAppData) ⇒ <code>\*</code>
+    * [.generateID](#module_utils.generateID) ⇒ <code>String</code>
+    * [.log](#module_utils.log)
+    * [.getWindowScrollTop](#module_utils.getWindowScrollTop) ⇒ <code>Number</code>
+    * [.gotoWinTop](#module_utils.gotoWinTop)
+    * [.asyncLoadJs](#module_utils.asyncLoadJs)
+    * [.asyncLoadCss](#module_utils.asyncLoadCss)
 
-<a name="module_@/deps/utils.BASE_PATH"></a>
+<a name="module_utils.BASE_PATH"></a>
 
-### @/deps/utils.BASE_PATH : <code>String</code>
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.c2s"></a>
+### utils.BASE_PATH : <code>String</code>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+<a name="module_utils.c2s"></a>
 
-### @/deps/utils.c2s
+### utils.c2s ⇒ <code>Promise</code>
 前后端异步通信接口
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>Promise</code> - Ajax handler
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -53,187 +55,201 @@
 | [options.customCallback] | <code>Boolean</code> | <code>false</code> | 是否自定义callback |
 | [options.callbackCoverServer] | <code>Boolean</code> | <code>false</code> | onError/onCallback是否覆盖server error |
 
-<a name="module_@/deps/utils.getUrlQueryValue"></a>
+<a name="module_utils.getUrlQueryValue"></a>
 
-### @/deps/utils.getUrlQueryValue
+### utils.getUrlQueryValue ⇒ <code>String</code>
 获取地址对应查询参数值
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>String</code> - Value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | Query key |
 
-<a name="module_@/deps/utils.getPlatformName"></a>
+<a name="module_utils.getPlatformName"></a>
 
-### @/deps/utils.getPlatformName
+### utils.getPlatformName ⇒ <code>String</code>
 获取平台名（内部根据platformName参数值判定）
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.getDocumentTitle"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>String</code> - 平台名
+<a name="module_utils.getDocumentTitle"></a>
 
-### @/deps/utils.getDocumentTitle
+### utils.getDocumentTitle ⇒ <code>Stirng</code>
 获取页面title（内部根据title query param返回）
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.setDocumentTitle"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>Stirng</code> - 页面title
+<a name="module_utils.setDocumentTitle"></a>
 
-### @/deps/utils.setDocumentTitle
+### utils.setDocumentTitle
 设置Document title
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | title | <code>String</code> | Document title |
 
-<a name="module_@/deps/utils.getRequestIgnorePrefix"></a>
+<a name="module_utils.getRequestIgnorePrefix"></a>
 
-### @/deps/utils.getRequestIgnorePrefix
+### utils.getRequestIgnorePrefix ⇒ <code>String</code>
 根据ignorePrefix查询参数获取请求需要忽略的访问路径
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.isDevelop"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>String</code> - 路径
+<a name="module_utils.isDevelop"></a>
 
-### @/deps/utils.isDevelop
+### utils.isDevelop ⇒ <code>Boolean</code>
 根据请求参数或者访问地址判断是否处于develop状态
 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.getProxyPrefix"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>Boolean</code> - true/false
+<a name="module_utils.getProxyPrefix"></a>
 
-### @/deps/utils.getProxyPrefix
+### utils.getProxyPrefix ⇒ <code>String</code>
 获取当前代理数据请求地址前缀
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.jumpTo"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>String</code> - ?proxy="返回值"
+<a name="module_utils.jumpTo"></a>
 
-### @/deps/utils.jumpTo
+### utils.jumpTo
 手动地址跳转
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | <code>Object</code> | $router.push(options) |
 
-<a name="module_@/deps/utils.sessionStorage"></a>
+<a name="module_utils.sessionStorage"></a>
 
-### @/deps/utils.sessionStorage
+### utils.sessionStorage ⇒ <code>\*</code>
 session storage操作
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | session key |
 | value | <code>\*</code> | session value |
 
-<a name="module_@/deps/utils.getAppStore"></a>
+<a name="module_utils.getAppStore"></a>
 
-### @/deps/utils.getAppStore
+### utils.getAppStore ⇒ <code>\*</code>
 获取app store
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | 要获取的key |
 
-<a name="module_@/deps/utils.setAppStore"></a>
+<a name="module_utils.setAppStore"></a>
 
-### @/deps/utils.setAppStore
+### utils.setAppStore ⇒ <code>\*</code>
 设置app store， Deep merge方式
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | key |
 | value | <code>\*</code> | value |
 
-<a name="module_@/deps/utils.getAppData"></a>
+<a name="module_utils.getAppData"></a>
 
-### @/deps/utils.getAppData
+### utils.getAppData ⇒ <code>\*</code>
 获取app data
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | key |
 
-<a name="module_@/deps/utils.setAppData"></a>
+<a name="module_utils.setAppData"></a>
 
-### @/deps/utils.setAppData
+### utils.setAppData ⇒ <code>\*</code>
 设置app data
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | key |
 | value | <code>\*</code> | value |
 
-<a name="module_@/deps/utils.removeAppData"></a>
+<a name="module_utils.removeAppData"></a>
 
-### @/deps/utils.removeAppData
+### utils.removeAppData ⇒ <code>\*</code>
 清除app data
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
 | key | <code>String</code> | key |
 
-<a name="module_@/deps/utils.generateID"></a>
+<a name="module_utils.generateID"></a>
 
-### @/deps/utils.generateID
+### utils.generateID ⇒ <code>String</code>
 生成唯一id
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.log"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>String</code> - uuid
+<a name="module_utils.log"></a>
 
-### @/deps/utils.log
+### utils.log
 自定义log屏幕打印
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | message | <code>String</code> |  | log message |
 | [pattern] | <code>String</code> | <code>&#x27;append&#x27;</code> | 信息显示方式：append（追加到上一条后面）; clear（先清屏） |
 
-<a name="module_@/deps/utils.getWindowScrollTop"></a>
+<a name="module_utils.getWindowScrollTop"></a>
 
-### @/deps/utils.getWindowScrollTop
+### utils.getWindowScrollTop ⇒ <code>Number</code>
 获取window scrollTop
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.gotoWinTop"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>Number</code> - scrollTop值
+<a name="module_utils.gotoWinTop"></a>
 
-### @/deps/utils.gotoWinTop
+### utils.gotoWinTop
 回到顶部
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
-<a name="module_@/deps/utils.asyncLoadJs"></a>
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+<a name="module_utils.asyncLoadJs"></a>
 
-### @/deps/utils.asyncLoadJs
+### utils.asyncLoadJs
 异步加载js
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | deps | <code>String</code> \| <code>Array.&lt;String&gt;</code> | 要加载的js列表 |
 | callback | <code>function</code> | 加载后回调 |
 
-<a name="module_@/deps/utils.asyncLoadCss"></a>
+<a name="module_utils.asyncLoadCss"></a>
 
-### @/deps/utils.asyncLoadCss
+### utils.asyncLoadCss
 异步加载css
 
-**Kind**: static constant of [<code>@/deps/utils</code>](#module_@/deps/utils)
+**Kind**: static constant of [<code>utils</code>](#module_utils)
 
 | Param | Type | Description |
 | --- | --- | --- |

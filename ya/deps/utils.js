@@ -1,6 +1,7 @@
 /**
  * 工具库
- * @module @/deps/utils
+ * 引入方式 import utils from '@/deps/utils';
+ * @module utils
  */
 import {
   Vue
@@ -29,6 +30,7 @@ export const BASE_PATH = '/'; // 总是相对于html
  * @param {Boolean} [options.autoTry = false] - 是否是自动发起的请求尝试
  * @param {Boolean} [options.customCallback = false] - 是否自定义callback
  * @param {Boolean} [options.callbackCoverServer = false] - onError/onCallback是否覆盖server error
+ * @return {Promise} Ajax handler
  */
 export const c2s = (() => {
   var ajaxSources = []; // 存储ajax取消token存储
@@ -338,6 +340,7 @@ export const c2s = (() => {
 /**
  * 获取地址对应查询参数值
  * @param {String} key - Query key
+ * @return {String} Value
  */
 export const getUrlQueryValue = function (key) {
   const search = location.search;
@@ -356,6 +359,7 @@ export const getUrlQueryValue = function (key) {
 
 /**
  * 获取平台名（内部根据platformName参数值判定）
+ * @return {String} 平台名
  */
 export const getPlatformName = function () {
   const platformName = getUrlQueryValue('platformName') || 'pc'; // 默认pc平台
@@ -364,6 +368,7 @@ export const getPlatformName = function () {
 
 /**
  * 获取页面title（内部根据title query param返回）
+ * @return {Stirng} 页面title
  */
 export const getDocumentTitle = function () {
   const title = getUrlQueryValue('title') || ''; // Document title
@@ -383,6 +388,7 @@ export const setDocumentTitle = function (title) {
 
 /**
  * 根据ignorePrefix查询参数获取请求需要忽略的访问路径
+ * @return {String} 路径
  */
 export const getRequestIgnorePrefix = function () {
   const pathPrefix = getUrlQueryValue('ignorePrefix') || ''; // 二级目录路径
@@ -392,6 +398,7 @@ export const getRequestIgnorePrefix = function () {
 /**
  * 根据请求参数或者访问地址判断是否处于develop状态
  * 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
+ * @return {Boolean} true/false
  */
 export const isDevelop = function () {
   const debugValue = getUrlQueryValue('develop') || '';
@@ -413,6 +420,7 @@ export const isDevelop = function () {
 
 /**
  * 获取当前代理数据请求地址前缀
+ * @return {String} ?proxy="返回值"
  */
 export const getProxyPrefix = function () {
   const prefix = getUrlQueryValue('proxy') || 'mock'; // 代理前缀
@@ -431,6 +439,7 @@ export const jumpTo = function (options) {
  * session storage操作
  * @param {String} key - session key
  * @param {*} value - session value
+ * @return {*} value
  */
 export const sessionStorage = function (key, value) {
   var result;
@@ -469,6 +478,7 @@ var appStore = {
 /**
  * 获取app store
  * @param {String} key - 要获取的key
+ * @return {*} value
  */
 export const getAppStore = function (key) {
   return appStore[key];
@@ -478,6 +488,7 @@ export const getAppStore = function (key) {
  * 设置app store， Deep merge方式
  * @param {String} key - key
  * @param {*} value - value
+ * @return {*} value
  */
 export const setAppStore = function (key, value) {
   appStore[key] = value;
@@ -487,6 +498,7 @@ export const setAppStore = function (key, value) {
 /**
  * 获取app data
  * @param {String} key - key
+ * @return {*} value
  */
 export const getAppData = function (key) {
   const appData = getAppStore('data');
@@ -497,6 +509,7 @@ export const getAppData = function (key) {
  * 设置app data
  * @param {String} key - key
  * @param {*} value - value
+ * @return {*} value
  */
 export const setAppData = function (key, value) {
   const appData = getAppStore('data');
@@ -508,6 +521,7 @@ export const setAppData = function (key, value) {
 /**
  * 清除app data
  * @param {String} key - key
+ * @return {*} value
  */
 export const removeAppData = function (key) {
   const appData = getAppStore('data');
@@ -518,6 +532,7 @@ export const removeAppData = function (key) {
 };
 /**
  * 生成唯一id
+ * @return {String} uuid
  */
 export const generateID = function () {
   return 'x' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -578,6 +593,7 @@ export const log = function (message, pattern) {
 
 /**
  * 获取window scrollTop
+ * @return {Number} scrollTop值
  */
 export const getWindowScrollTop = function () {
   return document.body.scrollTop + document.documentElement.scrollTop;
@@ -611,7 +627,7 @@ export const asyncLoadJs = (function () {
      * 执行器
      * @param  {*}   genFn
      * @param  {*} callback
-     * @return {*} 
+     * @return {*}
      */
     function run(genFn, callback) {
       var gen = genFn();
@@ -713,84 +729,3 @@ export const asyncLoadCss = (function () {
     });
   }
 }());
-
-// export {
-//   BASE_PATH,
-//   /**
-//    * 前后端异步通信接口
-//    * @param {Object} ajaxOptions - axios config
-//    * @param {Object} options - 自定义配置项
-//    * @param {Boolean} [options.mask = true] - 请求是否带遮罩
-//    * @param {String} [options.ajaxType = 'ignore'] - 防止二次提交 ignore(等上次请求完才能发请求)/abort(直接中断上次请求)/none(可发多个相同请求)
-//    * @param {Boolean} [options.withData = true] - 在ajaxType不等于none时起作用，作为二次提交的判定条件，是否连带提交参数判定
-//    * @param {Boolean} [options.autoApplyUrlPrefix = true] - 自动附加请求前缀
-//    * @param {Boolean} [options.silentError = false] - 默认提示错误
-//    * @param {Boolean} [options.forceMock = false] - 是否强制走本地mock服务
-//    * @param {Boolean} [options.autoTry = false] - 是否是自动发起的请求尝试
-//    * @param {Boolean} [options.customCallback = false] - 是否自定义callback
-//    * @param {Boolean} [options.callbackCoverServer = false] - onError/onCallback是否覆盖server error
-//    */
-//   c2s,
-//   /**
-//    * 获取地址对应查询参数值
-//    * @param {String} key - Query key
-//    */
-//   getUrlQueryValue,
-//   /**
-//    * 获取平台名（内部根据platformName参数值判定）
-//    */
-//   getPlatformName,
-//   /**
-//    * 获取页面title（内部根据title query param返回）
-//    */
-//   getDocumentTitle,
-//   /**
-//    * 设置Document title
-//    * @param {String} title Document title
-//    */
-//   setDocumentTitle,
-//   /**
-//    * 获取当前代理数据请求地址前缀
-//    */
-//   getProxyPrefix,
-//   /**
-//    * 根据请求参数或者访问地址判断是否处于develop状态
-//    * 开发环境包括127.0.0.1/localhost/192.168.x.x（不包括192.168.49.61）
-//    */
-//   isDevelop,
-//   /**
-//    * 手动地址跳转
-//    * @param {Object} options - $router.push(options)
-//    */
-//   jumpTo,
-//   /**
-//    * session storage操作
-//    * @param {String} key - session key
-//    * @param {*} value - session value
-//    */
-//   sessionStorage,
-//   /**
-//    * 获取app store
-//    * @param {String} key - 要获取的key
-//    */
-//   getAppStore,
-//   /**
-//    * 设置app store
-//    * @param {String} key - key
-//    * @param {*} value - value
-//    */
-//   setAppStore,
-//   /**
-//    * 获取app data
-//    * @param {String} key - key
-//    */
-//   getAppData,
-//   setAppData,
-//   removeAppData,
-//   generateID,
-//   log,
-//   getWindowScrollTop,
-//   gotoWinTop,
-//   asyncLoadCss,
-//   asyncLoadJs
-// };
