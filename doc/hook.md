@@ -118,6 +118,7 @@ hook('validate@route', function ({ record, store }) {
  * @param {Store} options.store - vuex store
  * @param {Object} options.route - 对应的vue router配置项
  * @param {Page} options.activePage - 对应的页面Vue component
+ * @param {Object} options.record - sitmap设置中对应配置记录
  * @return {Boolean} 返回为false中断切换操作
  */
 /**

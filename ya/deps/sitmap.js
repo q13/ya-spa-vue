@@ -200,7 +200,8 @@ async function extractRoutes(records: any, all: any) {
           let result = await hook.exe('switch@route', {
             route: to,
             store,
-            activePage: WrapperComponent
+            activePage: WrapperComponent,
+            record
           });
           if (typeof result !== 'undefined') {
             result = [].concat(result);
