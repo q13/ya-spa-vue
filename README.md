@@ -98,3 +98,4 @@ npm run mock
 * [Graph使用方式](https://github.com/q13/ya-spa-vue/blob/master/doc/graph.md)
 * [Hook api](https://github.com/q13/ya-spa-vue/blob/master/doc/hook.md)
 * [Utils api](https://github.com/q13/ya-spa-vue/blob/master/doc/utils.md)
+* [两种路由方案Activity/Frame](https://github.com/q13/ya-spa-vue/blob/master/doc/router.md)
