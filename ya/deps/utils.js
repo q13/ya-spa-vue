@@ -10,6 +10,7 @@ import axios from 'axios';
 import {
   merge
 } from 'lodash';
+import clientStore from 'store';
 
 /**
  * @constant
@@ -436,9 +437,9 @@ export const jumpTo = function (options) {
 };
 
 /**
- * session storage操作
- * @param {String} key - session key
- * @param {*} value - session value
+ * sessionStorage操作
+ * @param {String} key - key
+ * @param {*} value - value，当value为undefined时为getter操作，否则为setter
  * @return {*} value
  */
 export const sessionStorage = function (key, value) {
@@ -464,6 +465,23 @@ export const sessionStorage = function (key, value) {
         result = sessionStorage.setItem(key, JSON.stringify(value));
       }
     }
+  }
+  return result;
+};
+
+/**
+ * localStorage操作
+ * 基于 https://github.com/marcuswestin/store.js/ 实现
+ * @param {String} key - key
+ * @param {*} value - value，当value为undefined时为getter操作，否则为setter
+ * @return {*} value
+ */
+export const localStorage = function (key, value) {
+  var result;
+  if (value === undefined) { // getter
+    result = clientStore.get(key);
+  } else {
+    result = clientStore.set(key, value);
   }
   return result;
 };

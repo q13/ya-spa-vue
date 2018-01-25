@@ -8,7 +8,6 @@
 import utils from '@/deps/utils';
 ```
 
-
 * [utils](#module_utils)
     * [.BASE_PATH](#module_utils.BASE_PATH) : <code>String</code>
     * [.c2s](#module_utils.c2s) ⇒ <code>Promise</code>
@@ -21,6 +20,7 @@ import utils from '@/deps/utils';
     * [.getProxyPrefix](#module_utils.getProxyPrefix) ⇒ <code>String</code>
     * [.jumpTo](#module_utils.jumpTo)
     * [.sessionStorage](#module_utils.sessionStorage) ⇒ <code>\*</code>
+    * [.localStorage](#module_utils.localStorage) ⇒ <code>\*</code>
     * [.getAppStore](#module_utils.getAppStore) ⇒ <code>\*</code>
     * [.setAppStore](#module_utils.setAppStore) ⇒ <code>\*</code>
     * [.getAppData](#module_utils.getAppData) ⇒ <code>\*</code>
@@ -132,15 +132,29 @@ import utils from '@/deps/utils';
 <a name="module_utils.sessionStorage"></a>
 
 ### utils.sessionStorage ⇒ <code>\*</code>
-session storage操作
+sessionStorage操作
 
 **Kind**: static constant of [<code>utils</code>](#module_utils)
 **Returns**: <code>\*</code> - value
 
 | Param | Type | Description |
 | --- | --- | --- |
-| key | <code>String</code> | session key |
-| value | <code>\*</code> | session value |
+| key | <code>String</code> | key |
+| value | <code>\*</code> | value，当value为undefined时为getter操作，否则为setter |
+
+<a name="module_utils.localStorage"></a>
+
+### utils.localStorage ⇒ <code>\*</code>
+localStorage操作
+基于 https://github.com/marcuswestin/store.js/ 实现
+
+**Kind**: static constant of [<code>utils</code>](#module_utils)
+**Returns**: <code>\*</code> - value
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>String</code> | key |
+| value | <code>\*</code> | value，当value为undefined时为getter操作，否则为setter |
 
 <a name="module_utils.getAppStore"></a>
 
