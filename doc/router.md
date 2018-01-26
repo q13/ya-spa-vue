@@ -2,7 +2,8 @@
 
 >参考 https://github.com/vuejs/vue-router/issues/1507 
 
-sitmap配置文件用于路由参数配置，具体如下
+sitmap配置文件用于路由参数配置，具体如下：
+
 ### Activity模式
 ```javascript
 const sitmap = [{
@@ -36,7 +37,7 @@ const sitmap = [{
   }
 }];
 ```
-Fragment模式下一个路由配置项可能对应多个Vue components页面逻辑，由<code>fragments</code>配置项索引页面逻辑文件位置，使用方式和vue router官方配置项中<code>components</code>一致，可简单理解为用<code>fragments</code>key替换<code>components</code>。
+Fragment模式下一个路由配置项可能对应多个Vue components页面逻辑，由<code>fragments</code>配置项索引页面逻辑文件位置，使用方式和vue router官方配置项中<code>components</code>一致，可简单理解为用<code>fragments</code>替换<code>components</code>。
 
 ### Mix模式（Activity和Fragment同时存在）
 ```javascript
