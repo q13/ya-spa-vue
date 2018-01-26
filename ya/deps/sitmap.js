@@ -94,9 +94,9 @@ async function extractRoutes(records: any, all: any) {
       let pageComponent = null;
       let originComponent = validData.isValid ? route.component : () => import('+/pages/nil/index');
       let ActivityComponent = null;
-      if (route.frame || route.frames) {
+      if (route.fragment || route.fragments) {
         if (!originComponent) {
-          originComponent = () => { // 有frame和frames的情况下如果不设置component，默认设置一个占位
+          originComponent = () => { // 有fragment和fragments的情况下如果不设置component，默认设置一个占位
             return new Promise((resolve) => {
               resolve({
                 default: {
@@ -249,10 +249,10 @@ async function extractRoutes(records: any, all: any) {
         }
       };
       // console.log('name', getSemanticPageName(record, all));
-      // 创建Frame组件，支持activity和fragment两种路由形式
-      const FrameComponents = route.frames; // 多个frame自动进入手动管理<route-view />模式，frame自己创建管理<router-view />
+      // 创建Fragment组件，支持activity和fragment两种路由形式
+      const FragmentComponents = route.fragments; // 多个fragment自动进入手动管理<route-view />模式，fragment自己创建管理<router-view />
       // console.log(route);
-      const frameMixins = {
+      const fragmentMixins = {
         beforeRouteEnter(to, from, next) {
           // next();
           handleRouteChangeTo(to, next);
@@ -269,22 +269,22 @@ async function extractRoutes(records: any, all: any) {
         destroyed() {
         }
       };
-      if (Object.prototype.toString.call(FrameComponents) === '[object Object]') {
+      if (Object.prototype.toString.call(FragmentComponents) === '[object Object]') {
         delete route.component; // 删除activity引用
-        let defaultFrame = FrameComponents.default; // 默认view
-        if (!defaultFrame) {
+        let defaultFragment = FragmentComponents.default; // 默认view
+        if (!defaultFragment) {
           console.warn('未提供默认default view，自动创建');
-          defaultFrame = merge({
+          defaultFragment = merge({
             template: '<router-view></router-view>'
-          }, frameMixins);
+          }, fragmentMixins);
         } else {
-          const originFrame = defaultFrame;
+          const originFragment = defaultFragment;
           // 附加activity mixins
-          defaultFrame = () => {
+          defaultFragment = () => {
             return new Promise((resolve) => {
-              originFrame().then((mod) => {
+              originFragment().then((mod) => {
                 resolve(mergeWith(mod.default, {
-                  mixins: [frameMixins]
+                  mixins: [fragmentMixins]
                 }, (target, source) => { // array 走合并
                   if (isArray(target)) {
                     return target.concat(source);
@@ -296,8 +296,8 @@ async function extractRoutes(records: any, all: any) {
             });
           };
         }
-        FrameComponents.default = defaultFrame; // 找回索引
-        route.components = FrameComponents;
+        FragmentComponents.default = defaultFragment; // 找回索引
+        route.components = FragmentComponents;
         // 下一层
         if (record.children && record.children.length) {
           const childrenRoutes = await extractRoutes(record.children, all);
@@ -306,27 +306,27 @@ async function extractRoutes(records: any, all: any) {
           }
         }
       } else {
-        const FrameComponent = route.frame; // 自动frame模式，此模式限制只存在一个frame嵌入页
-        let FrameProxyComponent = route.component = merge({}, frameMixins);
+        const FragmentComponent = route.fragment; // 自动fragment模式，此模式限制只存在一个fragment嵌入页
+        let FragmentProxyComponent = route.component = merge({}, fragmentMixins);
         if (record.children && record.children.length) {
           const childrenRoutes = await extractRoutes(record.children, all);
           if (childrenRoutes && childrenRoutes.length) {
             route.children = childrenRoutes;
           }
           // 设置带router-view的template
-          // FrameProxyComponent.template = '<router-view></router-view>';
-          FrameProxyComponent.render = (h) => {
-            if (FrameComponent) {
+          // FragmentProxyComponent.template = '<router-view></router-view>';
+          FragmentProxyComponent.render = (h) => {
+            if (FragmentComponent) {
               return h('div', [
                 h('router-view'),
-                h(FrameComponent)
+                h(FragmentComponent)
               ]);
             } else {
               return h('router-view');
             }
           };
         } else {
-          FrameProxyComponent.render = () => null;
+          FragmentProxyComponent.render = () => null;
         }
       }
       routes.push(route);
