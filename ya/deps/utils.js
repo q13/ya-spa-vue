@@ -200,15 +200,17 @@ export const c2s = (() => {
     const clearMask = function () {
       if (maskElement) {
         if (mask === true) {
-          maskElement.style.display = 'none'
-          hideIndicator();
+          if (!ajaxSources.length) { // 没有进行中的xhr才取消遮罩
+            maskElement.style.display = 'none';
+            hideIndicator();
+          }
         } else {
           if (maskElement.parentNode) { // Fuck flow
-            maskElement.parentNode.removeChild(maskElement)
+            maskElement.parentNode.removeChild(maskElement);
           }
           // 恢复static定位
           if (isRefStatic && refElement) {
-            refElement.style.position = 'static'
+            refElement.style.position = 'static';
           }
         }
       }
