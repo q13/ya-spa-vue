@@ -18,6 +18,17 @@ import clientStore from 'store';
  * @default
  */
 export const BASE_PATH = '/'; // 总是相对于html
+let apiDomain = window.API_DOMAIN || '/';
+if (apiDomain.slice(-1) !== '/') {
+  apiDomain = apiDomain + '/';
+}
+if (apiDomain !== '/') {
+  // 考虑附加请求协议
+  if (apiDomain.slice(0, 4) !== 'http') {
+    apiDomain = location.protocol + '//' + apiDomain;
+  }
+}
+export const API_DOMAIN = apiDomain; // 接口域名
 /**
  * 前后端异步通信接口
  * @param {Object} ajaxOptions - axios config
@@ -52,7 +63,10 @@ export const c2s = (() => {
     const hideIndicator = appMethods.hideIndicator || (() => {}); // 隐藏加载指示器
     const url = ajaxOptions.url;
     if (autoApplyUrlPrefix) {
-      ajaxOptions.url = BASE_PATH + url;
+      ajaxOptions.url = API_DOMAIN + url;
+    }
+    if (typeof ajaxOptions.withCredentials === 'undefined') {
+      ajaxOptions.withCredentials = true; // 默认支持跨域cookie
     }
     // 默认post方式
     ajaxOptions.method = ajaxOptions.method || 'post';

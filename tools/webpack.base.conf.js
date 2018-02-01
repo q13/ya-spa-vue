@@ -84,7 +84,7 @@ module.exports = {
       loader: 'url-loader',
       options: {
         limit: 10000,
-        name: 'plus/img/[hash:7].[ext]'
+        name: 'plus/img/[hash].[ext]'
       }
     },
     {
@@ -92,7 +92,7 @@ module.exports = {
       loader: 'url-loader',
       options: {
         limit: 10000,
-        name: 'plus/media/[hash:7].[ext]'
+        name: 'plus/media/[hash].[ext]'
       }
     },
     {
@@ -100,7 +100,7 @@ module.exports = {
       loader: 'url-loader',
       options: {
         limit: 10000,
-        name: 'plus/fonts/[hash:7].[ext]'
+        name: 'plus/fonts/[hash].[ext]'
       }
     }
     ])

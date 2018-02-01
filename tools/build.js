@@ -1,4 +1,20 @@
 process.env.NODE_ENV = 'production'
+// return;
+let appEnv = process.argv[2];
+let appName = process.argv[3];
+let apiDomain = process.argv[4];
+if (!appEnv || !appName || !apiDomain) {
+  console.log('缺少必要运行参数（--app-env,--app-name,--api-domain）');
+  return;
+}
+// 提取参数值
+appEnv = appEnv.split('=')[1];
+appName = appName.split('=')[1];
+apiDomain = apiDomain.split('=')[1];
+console.log('build参数如下：');
+console.log('--app-env: ' + appEnv);
+console.log('--app-name: ' + appName);
+console.log('--api-domain: ' + apiDomain);
 
 var ora = require('ora')
 var rm = require('rimraf')
@@ -7,13 +23,18 @@ var chalk = require('chalk')
 var webpack = require('webpack')
 var fsExtra = require('fs-extra');
 var config = require('./config')
-var webpackConfig = require('./webpack.prod.conf')
+var getWebpackConfig = require('./webpack.prod.conf')
 
 var spinner = ora('building for production...')
 spinner.start()
 
 rm(path.join(config.build.assetsRoot, '/'), err => {
   if (err) throw err
+  const webpackConfig = getWebpackConfig({
+    appEnv: appEnv,
+    appName: appName,
+    apiDomain: apiDomain
+  });
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()
     if (err) throw err
