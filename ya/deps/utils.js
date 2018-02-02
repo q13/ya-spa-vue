@@ -46,6 +46,19 @@ export const API_DOMAIN = apiDomain; // 接口域名
  */
 export const c2s = (() => {
   var ajaxSources = []; // 存储ajax取消token存储
+  // https://github.com/axios/axios/issues/265 IE 8-9
+  axios.interceptors.response.use((response) => {
+    if (response.data == null && response.config.responseType === 'json' && response.request.responseText != null) {
+      try {
+        // eslint-disable-next-line no-param-reassign
+        response.data = JSON.parse(response.request.responseText);
+      } catch (e) {
+        // ignored
+      }
+    }
+    return response;
+  });
+
   return (ajaxOptions, {
     mask = true,
     ajaxType = 'ignore',
@@ -65,7 +78,7 @@ export const c2s = (() => {
     if (autoApplyUrlPrefix) {
       ajaxOptions.url = API_DOMAIN + url;
     }
-    if (typeof ajaxOptions.withCredentials === 'undefined') {
+    if (ajaxOptions.url.slice(0, 4) === 'http' && typeof ajaxOptions.withCredentials === 'undefined') {
       ajaxOptions.withCredentials = true; // 默认支持跨域cookie
     }
     // 默认post方式

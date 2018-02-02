@@ -2,19 +2,22 @@ process.env.NODE_ENV = 'production'
 // return;
 let appEnv = process.argv[2];
 let appName = process.argv[3];
-let apiDomain = process.argv[4];
-if (!appEnv || !appName || !apiDomain) {
-  console.log('缺少必要运行参数（--app-env,--app-name,--api-domain）');
+let appDomain = process.argv[4];
+if (!appEnv || !appName || !appDomain) {
+  console.log('缺少必要运行参数（--app-env,--app-name,--app-domain）');
   return;
 }
 // 提取参数值
 appEnv = appEnv.split('=')[1];
 appName = appName.split('=')[1];
-apiDomain = apiDomain.split('=')[1];
+appDomain = appDomain.split('=')[1];
+if (appDomain.slice(-1) !== '/') {
+  appDomain = appDomain + '/';
+}
 console.log('build参数如下：');
 console.log('--app-env: ' + appEnv);
 console.log('--app-name: ' + appName);
-console.log('--api-domain: ' + apiDomain);
+console.log('--app-domain: ' + appDomain);
 
 var ora = require('ora')
 var rm = require('rimraf')
@@ -33,7 +36,7 @@ rm(path.join(config.build.assetsRoot, '/'), err => {
   const webpackConfig = getWebpackConfig({
     appEnv: appEnv,
     appName: appName,
-    apiDomain: apiDomain
+    appDomain: appDomain
   });
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()

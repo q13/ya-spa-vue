@@ -94,14 +94,6 @@ module.exports = {
         limit: 10000,
         name: 'plus/media/[hash].[ext]'
       }
-    },
-    {
-      test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 10000,
-        name: 'plus/fonts/[hash].[ext]'
-      }
     }
     ])
   }

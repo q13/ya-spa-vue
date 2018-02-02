@@ -16,6 +16,9 @@ function getWebpackConfig(options) {
       rules: utils.styleLoaders({
         sourceMap: true,
         extract: true
+      }).concat({
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'base64-font-loader'
       })
     },
     devtool: 'source-map',
@@ -23,7 +26,7 @@ function getWebpackConfig(options) {
       path: config.build.assetsRoot,
       filename: 'plus/js/[name]-[chunkhash].js',
       chunkFilename: 'plus/js/[id]-[chunkhash].js',
-      publicPath: '/' + options.appName // 项目名默认就是二级path
+      publicPath: '//cdn-' + options.appDomain + options.appName + '/' // 项目名默认就是二级path
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -61,7 +64,7 @@ function getWebpackConfig(options) {
         },
         chunksSortMode: 'dependency',
         window: {
-          API_DOMAIN: options.apiDomain // 接口域名写入window对象 
+          APP_DOMAIN: options.appDomain // 域名写入window对象 
         }
       }),
       // keep module.id stable when vender modules does not change
