@@ -23,7 +23,7 @@ console.log('--app-domain: ' + appDomain);
 if (publicPath) {
   publicPath = publicPath.split('=')[1];
 } else {
-  publicPath = '//cdn-' + options.appDomain + options.appName + '/'; // 项目名默认就是二级path
+  publicPath = '//cdn-' + appDomain + appName + '/'; // 项目名默认就是二级path
 }
 console.log('--public-path: ' + publicPath);
 
