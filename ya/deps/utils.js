@@ -333,23 +333,27 @@ export const c2s = (() => {
                 data: response
               });
             });
-            if (alert) {
-              alert({
-                message: header.message,
-                iconType: 'error'
-              });
-            } else {
-              window.alert(header.message);
+            if (!silentError) {
+              if (alert) {
+                alert({
+                  message: header.message,
+                  iconType: 'error'
+                });
+              } else {
+                window.alert(header.message);
+              }
             }
           } else {
             // if (header.code === 50001 || header.code === '50001') { // 业务错误
-            if (alert) {
-              alert({
-                message: header.message,
-                iconType: 'error'
-              });
-            } else {
-              window.alert(header.message);
+            if (!silentError) {
+              if (alert) {
+                alert({
+                  message: header.message,
+                  iconType: 'error'
+                });
+              } else {
+                window.alert(header.message);
+              }
             }
             // }
           }
