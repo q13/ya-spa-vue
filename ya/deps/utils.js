@@ -75,6 +75,7 @@ export const c2s = (() => {
     const showIndicator = appMethods.showIndicator || (() => {}); // 显示加载指示器
     const hideIndicator = appMethods.hideIndicator || (() => {}); // 隐藏加载指示器
     let url = ajaxOptions.url;
+    const originUrl = url; // 保存原始请求地址
     if (autoApplyUrlPrefix) {
       let apiPrefix = window.__api_prefix__; // 附加自定义前缀
       if (apiPrefix) {
@@ -318,7 +319,7 @@ export const c2s = (() => {
             console.error('提示', '测试服务期接口返回500错误，尝试走本地mock服务重调一次');
             c2s({
               ...ajaxOptions,
-              url
+              url: originUrl
             }, {
               mask,
               ajaxType,
