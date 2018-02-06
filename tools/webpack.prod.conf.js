@@ -26,7 +26,7 @@ function getWebpackConfig(options) {
       path: config.build.assetsRoot,
       filename: 'plus/js/[name]-[chunkhash].js',
       chunkFilename: 'plus/js/[id]-[chunkhash].js',
-      publicPath: '//cdn-' + options.appDomain + options.appName + '/' // 项目名默认就是二级path
+      publicPath: options.publicPath // 项目名默认就是二级path
     },
     plugins: [
       new webpack.DefinePlugin({

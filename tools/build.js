@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'production'
 let appEnv = process.argv[2];
 let appName = process.argv[3];
 let appDomain = process.argv[4];
+let publicPath = process.argv[5];
 if (!appEnv || !appName || !appDomain) {
   console.log('缺少必要运行参数（--app-env,--app-name,--app-domain）');
   return;
@@ -18,6 +19,13 @@ console.log('build参数如下：');
 console.log('--app-env: ' + appEnv);
 console.log('--app-name: ' + appName);
 console.log('--app-domain: ' + appDomain);
+
+if (publicPath) {
+  publicPath = publicPath.split('=')[1];
+} else {
+  publicPath = '//cdn-' + options.appDomain + options.appName + '/'; // 项目名默认就是二级path
+}
+console.log('--public-path: ' + publicPath);
 
 var ora = require('ora')
 var rm = require('rimraf')
@@ -36,7 +44,8 @@ rm(path.join(config.build.assetsRoot, '/'), err => {
   const webpackConfig = getWebpackConfig({
     appEnv: appEnv,
     appName: appName,
-    appDomain: appDomain
+    appDomain: appDomain,
+    publicPath: publicPath
   });
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()
