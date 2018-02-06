@@ -74,8 +74,15 @@ export const c2s = (() => {
     const alert = appMethods.alert; // 业务层存储alert引用
     const showIndicator = appMethods.showIndicator || (() => {}); // 显示加载指示器
     const hideIndicator = appMethods.hideIndicator || (() => {}); // 隐藏加载指示器
-    const url = ajaxOptions.url;
+    let url = ajaxOptions.url;
     if (autoApplyUrlPrefix) {
+      let apiPrefix = window.__api_prefix__; // 附加自定义前缀
+      if (apiPrefix) {
+        if (apiPrefix.slice(-1) !== '/') {
+          apiPrefix = apiPrefix + '/';
+        }
+        url = apiPrefix + url;
+      }
       ajaxOptions.url = API_DOMAIN + url;
     }
     if (ajaxOptions.url.slice(0, 4) === 'http' && typeof ajaxOptions.withCredentials === 'undefined') {
