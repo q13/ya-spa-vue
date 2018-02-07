@@ -6,6 +6,7 @@ var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
+var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -41,6 +42,7 @@ module.exports = merge(baseWebpackConfig, {
       inject: false
     }),
     new FriendlyErrorsPlugin(),
-    new ParseAtFlagPlugin()
+    new ParseAtFlagPlugin(),
+    new RemoveStrictFlagPlugin()
   ]
 })

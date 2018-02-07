@@ -309,11 +309,20 @@ export const c2s = (() => {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
           // debug模式下尝试走一遍本地mock服务，用于应对远程服务接口不全的情况
-          const data = response.data || {
-            header: {
-              message: response.status + ' ' + response.statusText
-            }
-          };
+          let data = null;
+          if (typeof response.data === 'string') {
+            data = {
+              header: {
+                message: response.data
+              }
+            };
+          } else {
+            data = response.data || {
+              header: {
+                message: response.status + ' ' + response.statusText
+              }
+            };
+          }
           const header = data.header;
           if (isDevelop() && pathPrefixOnDebug !== 'mock') {
             console.error('提示', '测试服务期接口返回500错误，尝试走本地mock服务重调一次');
