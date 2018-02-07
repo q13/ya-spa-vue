@@ -5,7 +5,6 @@ function Plugin() {
 }
 
 Plugin.prototype.apply = function(compiler) {
-  console.log(123);
   compiler.plugin('emit', function(compilation, callback) {
     const jsFiles = Object.keys(compilation.assets).filter(fileName => /\.js$/.test(fileName));
     jsFiles.forEach(fileName => {
