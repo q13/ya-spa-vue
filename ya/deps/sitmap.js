@@ -252,7 +252,7 @@ async function extractRoutes(records: any, all: any) {
       // 创建Fragment组件，支持activity和fragment两种路由形式
       const FragmentComponents = route.fragments; // 多个fragment自动进入手动管理<route-view />模式，fragment自己创建管理<router-view />
       // console.log(route);
-      const fragmentMixins = {
+      const defaultFragmentMixins = {
         beforeRouteEnter(to, from, next) {
           // next();
           handleRouteChangeTo(to, next);
@@ -266,6 +266,9 @@ async function extractRoutes(records: any, all: any) {
           next();
           handleRouteChangeFrom(from);
         },
+        mounted() {
+          this.$el.className += ` page-fragment ${kebabCase(pageName)}-default-fragment`;
+        },
         destroyed() {
         }
       };
@@ -276,7 +279,7 @@ async function extractRoutes(records: any, all: any) {
           console.warn('未提供默认default view，自动创建');
           defaultFragment = merge({
             template: '<router-view></router-view>'
-          }, fragmentMixins);
+          }, defaultFragmentMixins);
         } else {
           const originFragment = defaultFragment;
           // 附加activity mixins
@@ -284,7 +287,7 @@ async function extractRoutes(records: any, all: any) {
             return new Promise((resolve) => {
               originFragment().then((mod) => {
                 resolve(mergeWith(mod.default, {
-                  mixins: [fragmentMixins]
+                  mixins: [defaultFragmentMixins]
                 }, (target, source) => { // array 走合并
                   if (isArray(target)) {
                     return target.concat(source);
@@ -297,6 +300,32 @@ async function extractRoutes(records: any, all: any) {
           };
         }
         FragmentComponents.default = defaultFragment; // 找回索引
+        // 设置common className, default已经被设置过
+        Object.keys(FragmentComponents).forEach((key) => {
+          if (key !== 'default') {
+            const originFragment = FragmentComponents[key];
+            FragmentComponents[key] = () => {
+              return new Promise((resolve) => {
+                originFragment().then((mod) => {
+                  resolve(mergeWith(mod.default, {
+                    mixins: [{
+                      mounted() {
+                        this.$el.className += ` page-fragment ${kebabCase(pageName)}-${key}-fragment`;
+                      }
+                    }]
+                  }, (target, source) => { // array 走合并
+                    if (isArray(target)) {
+                      return target.concat(source);
+                    }
+                  }));
+                }).catch((evt) => {
+                  console.error(evt);
+                });
+              });
+            };
+          }
+        });
+        // 重写components
         route.components = FragmentComponents;
         // 下一层
         if (record.children && record.children.length) {
@@ -307,7 +336,7 @@ async function extractRoutes(records: any, all: any) {
         }
       } else {
         const FragmentComponent = route.fragment; // 自动fragment模式，此模式限制只存在一个fragment嵌入页
-        let FragmentProxyComponent = route.component = merge({}, fragmentMixins);
+        let FragmentProxyComponent = route.component = merge({}, defaultFragmentMixins);
         if (record.children && record.children.length) {
           const childrenRoutes = await extractRoutes(record.children, all);
           if (childrenRoutes && childrenRoutes.length) {
