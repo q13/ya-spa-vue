@@ -256,7 +256,7 @@ export const c2s = (() => {
     if (autoTry) { // 自动发起的尝试请求不响应用户逻辑
       onSuccess = onError = () => {};
     }
-    return new Promise((resolve, reject) => {
+    const ajaxPromise = new Promise((resolve, reject) => {
       /**
        * axios resolve回调处理
        */
@@ -386,6 +386,8 @@ export const c2s = (() => {
         clearMask();
       });
     });
+    ajaxPromise.catch(() => {});
+    return ajaxPromise;
   }
 })();
 /**
