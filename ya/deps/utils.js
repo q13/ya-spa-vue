@@ -233,12 +233,12 @@ export const c2s = (() => {
     };
     // 清理mask
     const clearMask = function () {
+      if (!ajaxSources.length) { // 没有进行中的xhr才取消遮罩
+        hideIndicator();
+      }
       if (maskElement) {
         if (mask === true) {
-          if (!ajaxSources.length) { // 没有进行中的xhr才取消遮罩
-            maskElement.style.display = 'none';
-            hideIndicator();
-          }
+          maskElement.style.display = 'none';
         } else {
           if (maskElement.parentNode) { // Fuck flow
             maskElement.parentNode.removeChild(maskElement);
