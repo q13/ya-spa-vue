@@ -44,7 +44,10 @@ function getWebpackConfig(options) {
         sourceMap: true
       }),
       // extract css into its own file
-      new ExtractTextPlugin('plus/css/[name]-[contenthash].css'),
+      new ExtractTextPlugin({
+        filename: 'plus/css/[name]-[contenthash].css',
+        allChunks: true
+      }),
       new OptimizeCSSPlugin({
         cssProcessorOptions: {
           safe: true

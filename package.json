@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "node tools/dev-server.js",
     "start": "node tools/dev-server.js",
+    "dist": "webpack --config tools/webpack.dist.conf.js",
     "build": "node tools/build.js",
     "mock": "node ./tools/mock.js",
     "lint": "eslint --ext .js,.vue src",
