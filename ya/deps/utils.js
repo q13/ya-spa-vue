@@ -269,7 +269,7 @@ export const c2s = (() => {
         } else {
           if (ajaxOptions.responseType === 'json') {
             const header = data.header;
-            if (header.code !== 20000 && header.code !== '0000') {
+            if (header.code !== 20000 && header.code !== '0000' && header.code !== 10000) {
               if (header.code === '1000' || header.code === 1000 || header.code === 40000 || header.code === '40000') { // 未登录
                 // 跳转到首页
                 location.href = '/';
