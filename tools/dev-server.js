@@ -5,6 +5,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || {
 
 var opn = require('opn')
 var path = require('path')
+var fsExtra = require('fs-extra');
+var fs = require('fs');
 var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
@@ -97,6 +99,14 @@ app.use(hotMiddleware)
 // app.use(staticPath, express.static('./static'))
 const SRC_DEPS_PATH = path.resolve(__dirname, '../src/deps/public') // 伺服/src/deps/public目录
 app.use('/static', express.static(SRC_DEPS_PATH))
+
+const DLL_PATH = path.resolve(__dirname, '../dll'); // Dll伺服
+fsExtra.ensureDirSync(DLL_PATH); // DLL目录，开发阶段存储打包dll文件
+const dllPath = path.resolve(DLL_PATH, 'dll.js');
+if (fs.existsSync(dllPath)) {
+  fs.writeFileSync(dllPath, fs.readFileSync(dllPath, 'utf8').replace(/"use\sstrict"/g, ''), 'utf8');
+}
+app.use('/dll', express.static(DLL_PATH));
 
 var uri = 'http://localhost:' + port
 

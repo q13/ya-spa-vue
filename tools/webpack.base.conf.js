@@ -2,6 +2,7 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('./config')
 var packageData = require('../package.json');
+const HappyPack = require('happypack');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -60,7 +61,8 @@ module.exports = {
     },
     {
       test: /\.js$/,
-      loader: 'babel-loader',
+      // loader: 'babel-loader',
+      use: 'happypack/loader',
       include: function (src) {
         src = src.split('\\').join('/')
         if (src.search('node_modules') === -1) {
@@ -96,5 +98,10 @@ module.exports = {
       }
     }
     ])
-  }
+  },
+  plugins: [
+    new HappyPack({
+      loaders: ['babel-loader']
+    })
+  ]
 }

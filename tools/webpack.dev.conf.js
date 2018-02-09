@@ -1,3 +1,5 @@
+var path = require('path');
+var fs = require('fs');
 var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('./config')
@@ -12,6 +14,9 @@ var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./tools/dev-client'].concat(baseWebpackConfig.entry[name])
 })
+
+// 判断dll文件是否存在
+const isDllExists = fs.existsSync(path.resolve(__dirname, '../dll/dll.js'));
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -39,10 +44,16 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.ejs',
-      inject: false
+      inject: false,
+      scripts: isDllExists ? ['/dll/dll.js'] : []
     }),
+  ].concat(isDllExists ? [
+    new webpack.DllReferencePlugin({
+      manifest: require('../dll/dll-manifest.json'),
+    })
+  ] : []).concat([
     new FriendlyErrorsPlugin(),
     new ParseAtFlagPlugin(),
     new RemoveStrictFlagPlugin()
-  ]
+  ])
 })
