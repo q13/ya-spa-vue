@@ -98,7 +98,7 @@ export const c2s = (() => {
     // }
     let data = ajaxOptions.data || {
       header: null,
-      body: null
+      body: {}
     };
     data.header = {
       app: '',
