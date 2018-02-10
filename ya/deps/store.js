@@ -12,6 +12,7 @@ const state = function () {
     cachePages: [], // 保存被缓存的page name
     onlyPage: false, // page是否独占整个页面
     pageTransitionName: 'opacity', // 默认opacity效果
+    fromRoute: null, // 存储上一个路由信息
     route: null, // 存储当前路由信息
     appData: null // 存储app级别数据
   };
@@ -39,6 +40,9 @@ const mutations = {
   },
   routeChange(state, route) {
     state.route = route;
+  },
+  fromRouteChange(state, route) {
+    state.fromRoute = route;
   },
   // 突变改变appData
   appDataChange(state, value) {

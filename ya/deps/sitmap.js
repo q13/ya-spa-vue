@@ -195,7 +195,7 @@ async function extractRoutes(records: any, all: any) {
         }
       });
       // 自定义route enter/update 进入行为
-      const handleRouteChangeTo = (to, next) => {
+      const handleRouteChangeTo = (to, from, next) => {
         async function exe () {
           let result = await hook.exe('switch@route', {
             route: to,
@@ -222,6 +222,7 @@ async function extractRoutes(records: any, all: any) {
           store.commit('pageTransitionNameChange', pageTransitionName);
           // 更新路由存储信息
           store.commit('routeChange', to);
+          store.commit('fromRouteChange', from);
           if (pageComponent) { // route update操作
             // 调用routeUpdated回调
             const routeUpdated = pageComponent.$options.routeUpdated;
@@ -255,12 +256,12 @@ async function extractRoutes(records: any, all: any) {
       const defaultFragmentMixins = {
         beforeRouteEnter(to, from, next) {
           // next();
-          handleRouteChangeTo(to, next);
+          handleRouteChangeTo(to, from, next);
         },
         beforeRouteUpdate(to, from, next) {
           // next();
           handleRouteChangeFrom(from);
-          handleRouteChangeTo(to, next);
+          handleRouteChangeTo(to, from, next);
         },
         beforeRouteLeave(to, from, next) {
           next();
