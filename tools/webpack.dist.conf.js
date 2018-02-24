@@ -32,7 +32,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       }
     })
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
+  devtool: 'none',
   output: {
     path: config.build.assetsRoot,
     filename: 'plus/js/[name]-[chunkhash].js',
@@ -91,9 +92,11 @@ var webpackConfig = merge(baseWebpackConfig, {
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
+          (module.resource.indexOf(
             path.join(__dirname, '../node_modules')
-          ) === 0
+          ) === 0 || module.resource.indexOf(
+            path.join(__dirname, '../src/widgets')
+          ) === 0)
         )
       }
     }),

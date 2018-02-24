@@ -1,4 +1,5 @@
 var path = require('path')
+var fs = require('fs');
 var config = require('./config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
@@ -25,7 +26,27 @@ exports.cssLoaders = function (options) {
         })
       })
     }
-
+    // 附加样式预设
+    let presetStyleExt = 'css';
+    if (loader) {
+      if (loader === 'stylus') {
+        presetStyleExt = 'styl';
+      } else if (loader === 'sass') {
+        presetStyleExt = 'sass';
+      } else if (loader === 'less') {
+        presetStyleExt = 'less';
+      }
+    }
+    const presetFilePath = path.resolve(__dirname, '../src/app/preset.' + presetStyleExt);
+    if (fs.existsSync(presetFilePath)) {
+      console.log('附加预设样式 ', presetFilePath);
+      loaders.push({
+        loader: 'sass-resources-loader',
+        options: {
+          resources: presetFilePath
+        }
+      });
+    }
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {

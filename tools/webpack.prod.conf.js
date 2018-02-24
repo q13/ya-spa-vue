@@ -81,9 +81,11 @@ function getWebpackConfig(options) {
           return (
             module.resource &&
             /\.js$/.test(module.resource) &&
-            module.resource.indexOf(
+            (module.resource.indexOf(
               path.join(__dirname, '../node_modules')
-            ) === 0
+            ) === 0 || module.resource.indexOf(
+              path.join(__dirname, '../src/widgets')
+            ) === 0)
           )
         }
       }),
