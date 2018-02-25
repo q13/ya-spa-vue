@@ -26,7 +26,7 @@ function getWebpackConfig(options) {
     output: {
       path: config.build.assetsRoot,
       filename: 'plus/js/[name]-[chunkhash].js',
-      chunkFilename: 'plus/js/[id]-[chunkhash].js',
+      chunkFilename: 'plus/js/[name]-[chunkhash].js',
       publicPath: options.publicPath // 项目名默认就是二级path
     },
     plugins: [
@@ -81,11 +81,15 @@ function getWebpackConfig(options) {
           // any required modules inside node_modules are extracted to vendor
           return (
             module.resource &&
-            /\.js$/.test(module.resource) &&
+            /\.(js|vue)$/.test(module.resource) &&
             (module.resource.indexOf(
               path.join(__dirname, '../node_modules')
             ) === 0 || module.resource.indexOf(
               path.join(__dirname, '../src/widgets')
+            ) === 0 || module.resource.indexOf(
+              path.join(__dirname, '../src/modules')
+            ) === 0 || module.resource.indexOf(
+              path.join(__dirname, '../src/deps')
             ) === 0)
           )
         }
