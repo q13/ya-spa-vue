@@ -3,6 +3,7 @@ var utils = require('./utils')
 var config = require('./config')
 var packageData = require('../package.json');
 const HappyPack = require('happypack');
+var webpack = require('webpack');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -100,6 +101,10 @@ module.exports = {
     ])
   },
   plugins: [
+    new webpack.ContextReplacementPlugin(
+      /moment[\/\\]locale$/,
+      /zh-cn/
+    ),
     new HappyPack({
       loaders: ['babel-loader']
     })
