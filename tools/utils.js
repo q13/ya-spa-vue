@@ -1,5 +1,6 @@
 var path = require('path')
 var fs = require('fs');
+var fsExtra = require('fs-extra');
 var config = require('./config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
@@ -85,3 +86,17 @@ exports.styleLoaders = function (options) {
   }
   return output
 }
+
+// 获取预设的异步chunk name
+exports.getAsyncChunkNames = function () {
+  var result = ['app'];
+  const chunkListFilePath = path.resolve(__dirname, '../src/chunks.json');
+  if (fs.existsSync(chunkListFilePath)) {
+    const chunks = fsExtra.readJsonSync(chunkListFilePath, { throws: false });
+    if (chunks && chunks.length) {
+      result = result.concat(chunks);
+    }
+  }
+  console.log('收集的chunks列表：' + result.join('，'));
+  return result;
+};
