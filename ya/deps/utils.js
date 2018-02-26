@@ -170,6 +170,7 @@ export const c2s = (() => {
         maskElement.style.left = '0';
         maskElement.style.width = '100%';
         maskElement.style.height = '100%';
+        maskElement.style.zIndex = 10010;
         // maskElement.style.background = 'red';
         maskElement.innerHTML = '<div class="app-ajax-mask-inner"></div>';
         if (document.body) { // Fuck flow
