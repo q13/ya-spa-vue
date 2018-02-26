@@ -16,6 +16,13 @@ Vue.use(Vuex);
 const { mapMutations, mapGetters, mapActions, mapState, createNamespacedHelpers } = Vuex;
 clientStore.addPlugin(storeExpirePlugin);
 
+// Gobal error handler
+window.addEventListener('error', function () {
+  if (window.console && window.console.error) {
+    window.console.error('Global error', arguments);
+  }
+});
+
 // 设置app命名空间占用
 export {
   Vue,
