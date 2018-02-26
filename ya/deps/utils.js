@@ -486,7 +486,11 @@ export const getProxyPrefix = function () {
  */
 export const jumpTo = function (options) {
   const router = getAppStore('router');
-  router.push(options);
+  if (typeof options === 'number') {
+    router.go(options);
+  } else {
+    router.push(options);
+  }
 };
 
 /**
