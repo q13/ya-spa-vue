@@ -376,6 +376,7 @@ async function extractNavs(records: any, all: any) {
       navVisible: record.navVisible !== false,
       breadcrumbVisible: record.breadcrumbVisible !== false,
       breadcrumbDisabled: !!record.breadcrumbDisabled,
+      permission: record.permission,
       link: record.navLink || (record.route && (() => {
         const familyRecords = getFamilyRecords(record, all);
         return '/' + familyRecords.filter((record) => {
