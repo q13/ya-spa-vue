@@ -28,9 +28,13 @@ if (publicPath) {
 }
 console.log('--public-path: ' + publicPath);
 
-isTest = isTest.split('=')[1];
-if (isTest === '1') {
-  isTest = true;
+if (isTest) {
+  isTest = isTest.split('=')[1];
+  if (isTest === '1') {
+    isTest = true;
+  } else {
+    isTest = false;
+  }
 } else {
   isTest = false;
 }
