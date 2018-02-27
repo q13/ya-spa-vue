@@ -10,6 +10,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 function getWebpackConfig(options) {
   var webpackConfig = merge(baseWebpackConfig, {
@@ -109,7 +110,7 @@ function getWebpackConfig(options) {
       //     ignore: ['.*']
       //   }
       // ])
-    ]
+    ].concat(options.isTest ? new BundleAnalyzerPlugin(): [])
   })
 
   // if (config.build.productionGzip) {

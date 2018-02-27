@@ -10,7 +10,7 @@
     "start": "node tools/dev-server.js",
     "dll": "node tools/dll.js",
     "dist": "webpack --config tools/webpack.dist.conf.js",
-    "build": "node tools/build.js",
+    "build": "node tools/build.js --app-env=prod --app-name=test --api-domain=i.yazuo.com --public-path= --is-test=1",
     "mock": "node ./tools/mock.js",
     "lint": "eslint --ext .js,.vue src",
     "flow-typed": "flow-typed install",

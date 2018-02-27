@@ -4,6 +4,7 @@ let appEnv = process.argv[2];
 let appName = process.argv[3];
 let appDomain = process.argv[4];
 let publicPath = process.argv[5];
+let isTest = process.argv[6];
 if (!appEnv || !appName || !appDomain) {
   console.log('缺少必要运行参数（--app-env,--app-name,--app-domain）');
   return;
@@ -27,6 +28,13 @@ if (publicPath) {
 }
 console.log('--public-path: ' + publicPath);
 
+isTest = isTest.split('=')[1];
+if (isTest === '1') {
+  isTest = true;
+} else {
+  isTest = false;
+}
+
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
@@ -45,7 +53,8 @@ rm(path.join(config.build.assetsRoot, '/'), err => {
     appEnv: appEnv,
     appName: appName,
     appDomain: appDomain,
-    publicPath: publicPath
+    publicPath: publicPath,
+    isTest: isTest
   });
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()
