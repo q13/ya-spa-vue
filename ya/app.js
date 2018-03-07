@@ -80,7 +80,8 @@ export default (resolve) => {
           domClass(state) {
             return {
               'app': true,
-              'app-only-page': state.onlyPage
+              'app-only-page': state.onlyPage,
+              [`${store.state.activePageName}__scope`]: true
             };
           },
           cachePages(state) {

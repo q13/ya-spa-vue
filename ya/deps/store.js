@@ -9,6 +9,7 @@ import getStore from '../../src/app/store';
 const state = function () {
   return {
     activePage: null, // 存储当前激活page
+    activePageName: '', // 存储当前激活page Name
     cachePages: [], // 保存被缓存的page name
     onlyPage: false, // page是否独占整个页面
     pageTransitionName: 'opacity', // 默认opacity效果
@@ -20,6 +21,9 @@ const state = function () {
 const mutations = {
   pageChange(state, activePage) {
     state.activePage = activePage;
+  },
+  pageNameChange(state, activePageName) {
+    state.activePageName = activePageName;
   },
   cachePageAdd(state, pageName) {
     let cachePages = state.cachePages;

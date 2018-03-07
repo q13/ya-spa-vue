@@ -213,6 +213,7 @@ async function extractRoutes(records: any, all: any) {
             }
           }
           store.commit('pageChange', WrapperComponent);
+          store.commit('pageNameChange', kebabCase(pageName));
           // 是否页面独占浏览器窗口
           if (onlyPage === true) {
             store.commit('onlyPageChange', true);
