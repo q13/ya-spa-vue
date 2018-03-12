@@ -271,7 +271,7 @@ export const c2s = (() => {
         } else {
           if (ajaxOptions.responseType === 'json') {
             const header = data.header;
-            if (header.code !== 10000 && header.code !== '10000') { // 10000 是成功状态码
+            if (header.code !== 10000 && header.code !== '10000' && header.code !== 20000) { // 10000 是成功状态码
               if (!silentError) { // 业务错误自动提示
                 if (alert) {
                   alert({
