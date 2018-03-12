@@ -275,11 +275,11 @@ export const c2s = (() => {
               if (!silentError) { // 业务错误自动提示
                 if (alert) {
                   alert({
-                    message: errorCode[header.code],
+                    message: errorCode[header.code] || '系统开小差了！',
                     iconType: 'error'
                   });
                 } else {
-                  window.alert(errorCode[header.code]);
+                  window.alert(errorCode[header.code] || '系统开小差了！');
                 }
               }
               header.success = false;
