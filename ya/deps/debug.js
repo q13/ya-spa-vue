@@ -5,6 +5,7 @@
 import {
   localStorage
 } from './utils';
+import hook from './hook';
 
 export default function () {
   let debugMode = localStorage('debugMode') || 'off'; // 默认关闭
@@ -23,6 +24,14 @@ export default function () {
       debugMode = 'on';
       // 本地存储标识
       localStorage('debugMode', debugMode);
+      // 提示已开启debug提示
+      // window.alert('已开启通信错误监测面板');
     }
+  });
+  // 注册hook
+  hook('response@ajax', function ({
+    data,
+    type
+  }) {
   });
 };

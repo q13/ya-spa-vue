@@ -645,10 +645,13 @@ export const generateID = function () {
 export const log = function (message, pattern) {
   pattern = pattern || 'append';
   let logDom = document.getElementById('app-log');
+  let bodyDom = null;
   let closeHandlerDom = null;
   if (!logDom) {
     logDom = document.createElement('div');
+    bodyDom = document.createElement('div');
     logDom.id = 'app-log';
+    bodyDom.className = 'log-body';
     Object.assign(logDom.style, {
       display: 'none',
       position: 'fixed',
@@ -656,38 +659,48 @@ export const log = function (message, pattern) {
       left: 0,
       width: '80%',
       'margin-left': '10%',
-      'max-height': '300px',
-      overflow: 'auto',
+      // 'padding-top': '16px',
       'z-index': '100000',
       background: 'white',
-      border: '1px solid #000000',
-      'box-shadow': '2px 2px 4px #333333',
+      border: '1px solid #cccccc',
+      'box-shadow': '0px 4px 8px #444444',
       'font-size': '16px'
+    });
+    Object.assign(bodyDom.style, {
+      overflow: 'auto',
+      'max-height': '300px'
     });
     closeHandlerDom = document.createElement('span');
     Object.assign(closeHandlerDom.style, {
       position: 'absolute',
-      top: '4px',
-      right: '4px',
+      top: '2px',
+      right: '16px',
+      cursor: 'pointer',
+      'font-size': '1.5em',
       'line-height': '1em'
     });
     closeHandlerDom.addEventListener('click', () => {
       logDom.style.display = 'none';
     });
     closeHandlerDom.innerHTML = '&times;';
+
+    logDom.appendChild(bodyDom);
     document.body.appendChild(logDom);
     logDom.appendChild(closeHandlerDom);
+  } else {
+    bodyDom = logDom.querySelector('.log-body');
   }
   logDom.style.display = 'block';
   let messageDom = document.createElement('p');
   Object.assign(messageDom.style, {
-    border: '1px solid #333333'
+    'border-bottom': '1px solid #444444',
+    'padding': '4px 8px'
   });
   messageDom.innerHTML = message;
   if (pattern === 'clear') {
     logDom.innerHTML = '';
   }
-  logDom.appendChild(messageDom);
+  bodyDom.appendChild(messageDom);
 };
 
 /**
