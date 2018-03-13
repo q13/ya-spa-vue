@@ -20,6 +20,7 @@ import {
   merge
 } from 'lodash';
 import PageTransition from './page-transition';
+import debugInit from './deps/debug';
 import '../src/app/index'; // 挂载业务框架
 
 export default (resolve) => {
@@ -28,7 +29,9 @@ export default (resolve) => {
    * 骨架预设值
    */
   async function create() {
-    // 先初始化store
+    // 初始化debug
+    debugInit();
+    // 初始化store
     const store = new Vuex.Store(initStore());
     // 设置全局引用
     setAppStore('store', store);

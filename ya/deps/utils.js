@@ -10,6 +10,7 @@ import axios from 'axios';
 import {
   merge
 } from 'lodash';
+import hook from './hook';
 import clientStore from 'store';
 import errorCode from './error-code.js'; // 错误码映射
 
@@ -261,8 +262,9 @@ export const c2s = (() => {
     const ajaxPromise = new Promise((resolve, reject) => {
       /**
        * axios resolve回调处理
+       * @param {Object} response - 返回响应
        */
-      const axiosResolveCallback = function (response) {
+      const axiosResolveCallback = async function (response) {
         const data = response.data;
         if (customCallback) {
           onCallback(data);
@@ -275,11 +277,11 @@ export const c2s = (() => {
               if (!silentError) { // 业务错误自动提示
                 if (alert) {
                   alert({
-                    message: errorCode[header.code] || '系统开小差了！',
+                    message: errorCode[header.code] || header.message || '系统开小差了！',
                     iconType: 'error'
                   });
                 } else {
-                  window.alert(errorCode[header.code] || '系统开小差了！');
+                  window.alert(errorCode[header.code] || header.message || '系统开小差了！');
                 }
               }
               header.success = false;
@@ -297,10 +299,17 @@ export const c2s = (() => {
           clearAjaxSource();
           clearMask();
         }
+        // hook响应
+        await hook.exe('response@ajax', {
+          data: response,
+          type: 'success'
+        });
       };
-      axios(ajaxOptions).then((response) => {
-        axiosResolveCallback(response);
-      }).catch((err) => {
+      /**
+       * reject handler
+       * @param {Object} err - error
+       */
+      const axiosRejectCallback = async function (err) {
         if (err.response) {
           const response = err.response;
           // The request was made and the server responded with a status code
@@ -381,6 +390,18 @@ export const c2s = (() => {
         }
         clearAjaxSource();
         clearMask();
+
+        // hook响应
+        await hook.exe('response@ajax', {
+          data: err,
+          type: 'error'
+        });
+      };
+      // 执行ajax
+      axios(ajaxOptions).then((response) => {
+        axiosResolveCallback(response);
+      }).catch((err) => {
+        axiosRejectCallback(err);
       });
     });
     ajaxPromise.catch(() => {});
