@@ -17,6 +17,14 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 
 // 判断dll文件是否存在
 const isDllExists = fs.existsSync(path.resolve(__dirname, '../dll/dll.js'));
+var envScripts = [];
+if (utils.isNeedReact()) {
+  envScripts.push('https://as.alipayobjects.com/g/component/react/15.5.4/react.min.js');
+  envScripts.push('https://as.alipayobjects.com/g/component/react/15.5.4/react-dom.min.js');
+}
+if (isDllExists) {
+  envScripts.push('/dll/dll.js');
+}
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -45,7 +53,7 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.ejs',
       inject: false,
-      scripts: isDllExists ? ['/dll/dll.js'] : []
+      scripts: envScripts
     }),
   ].concat(isDllExists ? [
     new webpack.DllReferencePlugin({

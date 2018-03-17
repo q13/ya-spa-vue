@@ -12,6 +12,12 @@ var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+var envScripts = [];
+if (utils.isNeedReact()) {
+  envScripts.push('https://as.alipayobjects.com/g/component/react/15.5.4/react.min.js');
+  envScripts.push('https://as.alipayobjects.com/g/component/react/15.5.4/react-dom.min.js');
+}
+
 function getWebpackConfig(options) {
   var webpackConfig = merge(baseWebpackConfig, {
     module: {
@@ -61,6 +67,7 @@ function getWebpackConfig(options) {
         filename: config.build.index,
         template: 'index.ejs',
         inject: false,
+        scripts: envScripts,
         // hash: true,
         minify: {
           removeComments: true,

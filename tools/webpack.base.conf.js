@@ -100,6 +100,10 @@ module.exports = {
     }
     ])
   },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
+  },
   plugins: [
     new webpack.ContextReplacementPlugin(
       /moment[\/\\]locale$/,

@@ -2,6 +2,7 @@ var path = require('path')
 var fs = require('fs');
 var fsExtra = require('fs-extra');
 var config = require('./config')
+var packageData = require('../package.json')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 exports.cssLoaders = function (options) {
@@ -99,4 +100,14 @@ exports.getAsyncChunkNames = function () {
   }
   console.log('收集的chunks列表：' + result.join('，'));
   return result;
+};
+/**
+ * 判断是否需要准备react环境
+ */
+exports.isNeedReact = function () {
+  var deps = packageData.dependencies;
+  if (deps['antd'] || deps['antd-mobile']) {
+    return true;
+  }
+  return false;
 };
