@@ -287,34 +287,10 @@ async function extractRoutes(records: any, all: any) {
           // 附加activity mixins
           defaultFragment = () => {
             return new Promise((resolve) => {
-              originFragment().then((mod) => {
-                resolve(mergeWith(mod.default, {
-                  mixins: [defaultFragmentMixins]
-                }, (target, source) => { // array 走合并
-                  if (isArray(target)) {
-                    return target.concat(source);
-                  }
-                }));
-              }).catch((evt) => {
-                console.error(evt);
-              });
-            });
-          };
-        }
-        FragmentComponents.default = defaultFragment; // 找回索引
-        // 设置common className, default已经被设置过
-        Object.keys(FragmentComponents).forEach((key) => {
-          if (key !== 'default') {
-            const originFragment = FragmentComponents[key];
-            FragmentComponents[key] = () => {
-              return new Promise((resolve) => {
+              if (validData.isValid) { // 具备权限才渲染原本default组件
                 originFragment().then((mod) => {
                   resolve(mergeWith(mod.default, {
-                    mixins: [{
-                      mounted() {
-                        this.$el.className += ` page-fragment ${kebabCase(pageName)}-${key}-fragment`;
-                      }
-                    }]
+                    mixins: [defaultFragmentMixins]
                   }, (target, source) => { // array 走合并
                     if (isArray(target)) {
                       return target.concat(source);
@@ -323,6 +299,44 @@ async function extractRoutes(records: any, all: any) {
                 }).catch((evt) => {
                   console.error(evt);
                 });
+              } else {
+                resolve(merge({
+                  template: '<router-view></router-view>'
+                }, defaultFragmentMixins));
+              }
+            });
+          };
+        }
+        FragmentComponents.default = defaultFragment; // 找回索引
+          // 设置common className, default已经被设置过
+        Object.keys(FragmentComponents).forEach((key) => {
+          if (key !== 'default') {
+            const originFragment = FragmentComponents[key];
+            FragmentComponents[key] = () => {
+              return new Promise((resolve) => {
+                if (validData.isValid) { // 非default component也加入权限控制
+                  originFragment().then((mod) => {
+                    resolve(mergeWith(mod.default, {
+                      mixins: [{
+                        mounted() {
+                          this.$el.className += ` page-fragment ${kebabCase(pageName)}-${key}-fragment`;
+                        }
+                      }]
+                    }, (target, source) => { // array 走合并
+                      if (isArray(target)) {
+                        return target.concat(source);
+                      }
+                    }));
+                  }).catch((evt) => {
+                    console.error(evt);
+                  });
+                } else {
+                  resolve({
+                    render() {
+                      return null;
+                    }
+                  });
+                }
               });
             };
           }
@@ -347,7 +361,7 @@ async function extractRoutes(records: any, all: any) {
           // 设置带router-view的template
           // FragmentProxyComponent.template = '<router-view></router-view>';
           FragmentProxyComponent.render = (h) => {
-            if (FragmentComponent) {
+            if (validData.isValid && FragmentComponent) { // 加入权限控制
               return h('div', [
                 h('router-view'),
                 h(FragmentComponent)
