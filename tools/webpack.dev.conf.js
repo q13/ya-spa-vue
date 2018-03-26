@@ -39,6 +39,10 @@ module.exports = merge(baseWebpackConfig, {
   },
   // devtool: 'cheap-module-eval-source-map',
   devtool: 'source-map', // chrome devtool更友好
+  devServer: {
+    contentBase: '../dist',
+    hot: true
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -46,7 +50,6 @@ module.exports = merge(baseWebpackConfig, {
       }
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
@@ -62,6 +65,8 @@ module.exports = merge(baseWebpackConfig, {
   ] : []).concat([
     new FriendlyErrorsPlugin(),
     new ParseAtFlagPlugin(),
-    new RemoveStrictFlagPlugin()
+    new RemoveStrictFlagPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ])
 })

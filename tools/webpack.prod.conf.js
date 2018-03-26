@@ -26,7 +26,12 @@ function getWebpackConfig(options) {
         extract: true
       }).concat({
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'base64-font-loader'
+        // loader: 'base64-font-loader',
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: 'plus/fonts/[hash].[ext]'
+        }
       })
     },
     devtool: 'source-map',
