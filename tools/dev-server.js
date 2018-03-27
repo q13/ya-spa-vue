@@ -44,12 +44,13 @@ var hotMiddleware = require('webpack-hot-middleware')(compiler, {
   heartbeat: 2000
 })
 // force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({ action: 'reload' })
-    cb()
-  })
-})
+// https://github.com/vuejs-templates/webpack/issues/751#issuecomment-309955295 升级到webpack3后需要注释html reload，否则hot replace整体失效
+// compiler.plugin('compilation', function (compilation) {
+//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//     hotMiddleware.publish({ action: 'reload' })
+//     cb()
+//   })
+// })
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
