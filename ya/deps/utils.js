@@ -841,3 +841,25 @@ export const asyncLoadCss = (function () {
     });
   }
 }());
+/**
+ * 组件创建转换器
+ * @param {Function} originComponent - 组件创建器
+ */
+export const vueCtorTransformer = function (originComponent) {
+  return () => {
+    return new Promise((resolve) => {
+      originComponent().then((mod) => {
+        const exportDefault = mod.default;
+        async function asyncFnCreate() {
+          const param = await hook.exe('create@component', {});
+          exportDefault(resolve, param);
+        }
+        if (typeof exportDefault === 'function') {
+          asyncFnCreate();
+        } else {
+          resolve(exportDefault);
+        }
+      });
+    });
+  };
+};

@@ -120,8 +120,13 @@ async function extractRoutes(records: any, all: any) {
           return new Promise((resolve) => {
             originComponent().then((mod) => {
               const exportDefault = mod.default;
+              async function asyncFnCreate() {
+                // 页面创建钩子, TODO: fragment模式未考虑
+                const param = await hook.exe('create@component', {});
+                exportDefault(resolve, param);
+              }
               if (typeof exportDefault === 'function') {
-                exportDefault(resolve);
+                asyncFnCreate();
               } else {
                 resolve(exportDefault);
               }
