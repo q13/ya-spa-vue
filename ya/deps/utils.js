@@ -387,6 +387,7 @@ export const c2s = (() => {
           } else {
             onError(err);
           }
+          reject(err);
         }
         clearAjaxSource();
         clearMask();
