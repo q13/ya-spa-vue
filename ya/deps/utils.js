@@ -849,18 +849,15 @@ export const asyncLoadCss = (function () {
 export const vueCtorTransformer = function (originComponent) {
   return () => {
     return new Promise((resolve) => {
-      originComponent().then((mod) => {
-        const exportDefault = mod.default;
-        async function asyncFnCreate() {
-          const param = await hook.exe('create@component', {});
-          exportDefault(resolve, param);
-        }
-        if (typeof exportDefault === 'function') {
-          asyncFnCreate();
-        } else {
-          resolve(exportDefault);
-        }
-      });
+      async function asyncFnCreate() {
+        const param = await hook.exe('create@component', {});
+        originComponent(resolve, param);
+      }
+      if (typeof originComponent === 'function') { // 只处理返回值是function的情况
+        asyncFnCreate();
+      } else {
+        resolve(originComponent);
+      }
     });
   };
 };
