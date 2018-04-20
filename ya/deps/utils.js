@@ -410,6 +410,169 @@ export const c2s = (() => {
   }
 })();
 /**
+ * 封装c2s方法，请求数据缓存层
+ * ds === dataset
+ * @param {Boolean} [strictMode = false] - 严格模式
+ * @param {Boolean} [cache = false] - 是否缓存
+ * @param {Boolean} [localstorage = false] - 是否加入本地存储
+ * @param {String} [prefer = 'backward'] - backward/forward(走缓存/走接口)
+ * @param {Array} [transform = []] - 返回值转换器
+ */
+export const ds = (() => {
+  return function (options = {}) {
+    // localStorage === -1/1 代表按cacheStore从后存，从前存
+    const { strictMode = false, cache = false, localStorage = false } = options;
+    const historyLength = 1 // 只保留最近一次数据记录，暂不做可配选项，未发现对应需求
+    const prefer = 'backward'; // 优先取历史数据，没取到再走接口，对比forward，直接取值
+    const transform = [].concat(options.transform || []); // 变换器
+    var cacheStore = []; // 存储响应结果
+    var promise = null; // 永远保留最近一次请求promise
+    return function (ajaxOptions, customOptions = {}) {
+      const { url, data = {} } = ajaxOptions;
+      // 从localStorage里取数据填充内存
+      const fillCacheStore = () => {
+        // 只填充一次
+        if (fillCacheStore.isFilled || localStorage === false) {
+          return;
+        }
+        let localDs = clientStore.get('ds') || [];
+        localDs.some((item) => {
+          if (item.url === url) {
+            cacheStore = item.cacheStore;
+            return true;
+          }
+        });
+        fillCacheStore.isFilled = true;
+      };
+      const end = () => {
+        // 释放promise引用
+        promise = null;
+      };
+      const doTransform = (res) => {
+        const callTransform = transform.concat(customOptions.transform || []);
+        // res流过transform
+        res = callTransform.reduce((pv, cv) => {
+          return cv(pv);
+        }, res);
+        return res;
+      };
+      const doPromise = (resolve, reject) => {
+        c2s(ajaxOptions, customOptions).then((res) => {
+          res = doTransform(res);
+          // 返回值
+          var result = {
+            res
+          };
+          // 缓储响应数据
+          if (cache) {
+            if (!cacheStore.some((item) => {
+              if (item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(data)) {
+                item.res.push(res);
+                // 保留有限长度
+                item.res = item.res.slice(-historyLength);
+                return true;
+              }
+            })) {
+              cacheStore.push({
+                req: {
+                  url,
+                  data
+                },
+                res: [res]
+              });
+            }
+            result.cacheStore = cacheStore;
+            // 处理本地存储
+            if (localStorage !== false) {
+              let localDs = clientStore.get('ds') || [];
+              // 获取待填充的本地数据
+              let getLocalDs = (cacheStore) => {
+                if (localStorage === true) {
+                  return cacheStore;
+                } else {
+                  if (localStorage > 0) {
+                    return cacheStore.slice(0, localStorage);
+                  } else {
+                    return cacheStore.slice(localStorage);
+                  }
+                }
+              };
+              if (!localDs.some((item) => {
+                if (item.url === url) {
+                  item.cacheStore = getLocalDs(cacheStore);
+                  return true;
+                }
+              })) { // 没找到新加入
+                localDs.push({
+                  url,
+                  cacheStore: getLocalDs(cacheStore)
+                });
+              }
+              // 重新存储
+              clientStore.set('ds', localDs);
+            }
+          }
+          // resolve
+          resolve(result);
+          end();
+        }).catch((err) => {
+          reject(err);
+          end();
+        });
+      };
+      if (!cache) { // 非缓存模式
+        if (strictMode) { // 严格模式下，调用几次就发送几次请求
+          promise = new Promise((resolve, reject) => {
+            doPromise(resolve, reject);
+          });
+        } else { // 兼容模式下(strictMode === false)，防止同时多次调用
+          if (!promise) {
+            promise = new Promise((resolve, reject) => {
+              doPromise(resolve, reject);
+            });
+          }
+        }
+      } else { // 缓存模式
+        fillCacheStore(); // 先填充本地缓存
+        const callPrefer = customOptions.prefer || prefer;
+        const handlePromise = () => {
+          if (callPrefer === 'backward') {
+            const cacheItem = cacheStore.find((item) => {
+              return item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(data);
+            });
+            if (!cacheItem) { // 未找到缓存走api请求
+              promise = new Promise((resolve, reject) => {
+                doPromise(resolve, reject);
+              });
+            } else {
+              promise = new Promise((resolve, reject) => {
+                resolve({
+                  res: cacheItem.res[cacheItem.res.length - 1],
+                  cacheStore: cacheStore
+                });
+                end();
+              });
+            }
+          } else if (callPrefer === 'forward') {
+            promise = new Promise((resolve, reject) => {
+              doPromise(resolve, reject);
+            });
+          }
+        };
+        if (strictMode) { // 严格模式下，各自判定，互相独立
+          handlePromise();
+        } else { // 兼容模式
+          if (!promise) { // promise不存在，backward/forward分别对待
+            handlePromise();
+          } else { // 兼容模式下，如果promise存在，backward和forward行为一致，取当前promise返回值
+          }
+        }
+      }
+      return promise;
+    };
+  };
+})();
+/**
  * 获取地址对应查询参数值
  * @param {String} key - Query key
  * @return {String} Value
