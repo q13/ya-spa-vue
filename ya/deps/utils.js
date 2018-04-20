@@ -425,10 +425,21 @@ export const ds = (() => {
     const historyLength = 1 // 只保留最近一次数据记录，暂不做可配选项，未发现对应需求
     const prefer = 'backward'; // 优先取历史数据，没取到再走接口，对比forward，直接取值
     const transform = [].concat(options.transform || []); // 变换器
+    const url = options.url;
     var cacheStore = []; // 存储响应结果
-    var promise = null; // 永远保留最近一次请求promise
+    var promise = null; // 保留最近一次请求promise
+    var lastData = null; // 保留最近一次请求data，用来在兼容模式下判定是否要重新发起请求
+    if (!url) {
+      console.error('ds配置参数url不能为空');
+      return;
+    }
     return function (ajaxOptions, customOptions = {}) {
-      const { url, data = {} } = ajaxOptions;
+      const { data = {} } = ajaxOptions;
+      const dataCopy = {
+        ...data
+      };
+      // 重设请求地址
+      ajaxOptions.url = url;
       // 从localStorage里取数据填充内存
       const fillCacheStore = () => {
         // 只填充一次
@@ -466,7 +477,7 @@ export const ds = (() => {
           // 缓储响应数据
           if (cache) {
             if (!cacheStore.some((item) => {
-              if (item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(data)) {
+              if (item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(dataCopy)) {
                 item.res.push(res);
                 // 保留有限长度
                 item.res = item.res.slice(-historyLength);
@@ -476,7 +487,7 @@ export const ds = (() => {
               cacheStore.push({
                 req: {
                   url,
-                  data
+                  data: dataCopy // 保存data copy版防止被完善结构
                 },
                 res: [res]
               });
@@ -530,6 +541,12 @@ export const ds = (() => {
             promise = new Promise((resolve, reject) => {
               doPromise(resolve, reject);
             });
+          } else {
+            if (JSON.stringify(lastData) !== JSON.stringify(dataCopy)) {
+              promise = new Promise((resolve, reject) => {
+                doPromise(resolve, reject);
+              });
+            }
           }
         }
       } else { // 缓存模式
@@ -538,7 +555,7 @@ export const ds = (() => {
         const handlePromise = () => {
           if (callPrefer === 'backward') {
             const cacheItem = cacheStore.find((item) => {
-              return item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(data);
+              return item.req.url === url && JSON.stringify(item.req.data) === JSON.stringify(dataCopy);
             });
             if (!cacheItem) { // 未找到缓存走api请求
               promise = new Promise((resolve, reject) => {
@@ -565,9 +582,15 @@ export const ds = (() => {
           if (!promise) { // promise不存在，backward/forward分别对待
             handlePromise();
           } else { // 兼容模式下，如果promise存在，backward和forward行为一致，取当前promise返回值
+            if (JSON.stringify(lastData) !== JSON.stringify(dataCopy)) {
+              promise = new Promise((resolve, reject) => {
+                doPromise(resolve, reject);
+              });
+            }
           }
         }
       }
+      lastData = dataCopy; // 保留请求参数引用
       return promise;
     };
   };
