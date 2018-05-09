@@ -59,7 +59,6 @@ Channel.install = function (Vue: any) {
               });
             })) {
               // 自动捕获立即执行
-              console.log('jfiwjfiw', channelStore);
               if (autoCapture && typeof (channel.value) !== 'undefined') {
                 callback.call(this, channel.value, name);
               }
@@ -123,7 +122,6 @@ Channel.install = function (Vue: any) {
         const callbacks = channel.callbacks;
         callbacks.delete(this);
       });
-      console.log('sss', channelStore);
     }
   });
 }
