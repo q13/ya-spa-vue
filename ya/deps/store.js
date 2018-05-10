@@ -36,6 +36,16 @@ const mutations = {
       }
     });
   },
+  cachePageRemove(state, pageName) {
+    let cachePages = state.cachePages;
+    const pageNames = [].concat(pageName);
+    pageNames.forEach((pageName) => {
+      cachePages = cachePages.filter((value) => {
+        return value !== pageName;
+      });
+    });
+    state.cachePages = cachePages;
+  },
   onlyPageChange(state, onlyPage) {
     state.onlyPage = onlyPage;
   },
