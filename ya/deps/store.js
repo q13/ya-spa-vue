@@ -2,7 +2,9 @@
  * 基于vuex的状态管理仓库
  */
 import {
-  merge
+  merge,
+  camelCase,
+  upperFirst
 } from 'lodash';
 import getStore from '../../src/app/store';
 
@@ -29,6 +31,7 @@ const mutations = {
     let cachePages = state.cachePages;
     const pageNames = [].concat(pageName);
     pageNames.forEach((pageName) => {
+      pageName = upperFirst(camelCase(pageName));
       if (!cachePages.some((value) => {
         return value === pageName;
       })) {
@@ -40,6 +43,7 @@ const mutations = {
     let cachePages = state.cachePages;
     const pageNames = [].concat(pageName);
     pageNames.forEach((pageName) => {
+      pageName = upperFirst(camelCase(pageName));
       cachePages = cachePages.filter((value) => {
         return value !== pageName;
       });
