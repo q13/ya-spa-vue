@@ -204,6 +204,8 @@ async function extractRoutes(records: any, all: any) {
         async function exe () {
           let result = await hook.exe('switch@route', {
             route: to,
+            to,
+            from,
             store,
             activePage: WrapperComponent,
             record
