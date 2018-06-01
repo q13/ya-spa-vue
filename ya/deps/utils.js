@@ -274,7 +274,11 @@ export const c2s = (() => {
           if (ajaxOptions.responseType === 'json') {
             const header = data.header;
             if (header.code !== 10000 && header.code !== '10000' && header.code !== 20000) { // 10000 是成功状态码
-              if (!silentError) { // 业务错误自动提示
+              let isSilent = silentError;
+              if (Object.prototype.toString.call(silentError) === '[object Function]') {
+                isSilent = silentError(data);
+              }
+              if (!isSilent) { // 业务错误自动提示
                 if (alert) {
                   alert({
                     message: errorCode[header.code] || header.message || '系统开小差了！',
@@ -310,6 +314,10 @@ export const c2s = (() => {
        * @param {Object} err - error
        */
       const axiosRejectCallback = async function (err) {
+        let isSilent = silentError;
+        if (Object.prototype.toString.call(silentError) === '[object Function]') {
+          isSilent = silentError(err);
+        }
         if (err.response) {
           const response = err.response;
           // The request was made and the server responded with a status code
@@ -348,7 +356,7 @@ export const c2s = (() => {
                 data: response
               });
             });
-            if (!silentError) {
+            if (!isSilent) {
               if (alert) {
                 alert({
                   message: header.message,
@@ -360,7 +368,7 @@ export const c2s = (() => {
             }
           } else {
             // if (header.code === 50001 || header.code === '50001') { // 业务错误
-            if (!silentError) {
+            if (!isSilent) {
               if (alert) {
                 alert({
                   message: header.message,
