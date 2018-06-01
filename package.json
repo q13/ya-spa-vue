@@ -105,7 +105,7 @@
     "stylus": "0.54.5",
     "stylus-loader": "3.0.1",
     "url-loader": "0.5.8",
-    "vue-loader": "13.7.0",
+    "vue-loader": "13.7.2",
     "vue-style-loader": "3.0.3",
     "vue-template-compiler": "2.5.13",
     "webpack": "3.11.0",
