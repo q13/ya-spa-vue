@@ -10,6 +10,7 @@ const packageData = require('../package.json');
 
 // 创建shelljs环境
 const devDeps = packageData.devDependencies;
+const deps = packageData.dependencies;
 
 prepareShellEnv(() => {
   const shell = require('shelljs');
@@ -52,7 +53,6 @@ prepareShellEnv(() => {
       return;
     }
   });
-  const deps = packageData.dependencies;
   const upgradeDeps = Object.keys(deps).filter((key) => {
     return key.slice(0, 9) === 'air-chain' || key.slice(0, 9) === 'ipos-zeus';
   });
@@ -85,7 +85,40 @@ prepareShellEnv(() => {
       break;
     }
   }
+  // warn third ui component version compatibility
+  const thirdUiComponents = [{
+    name: '@antv/data-set'
+  }, {
+    name: '@antv/f2'
+  }, {
+    name: '@antv/g2'
+  }, {
+    name: '@antv/g6'
+  }, {
+    name: 'antd'
+  }, {
+    name: 'antd-mobile'
+  }, {
+    name: 'element-ui'
+  }, {
+    name: 'inmap'
+  }, {
+    name: 'iview'
+  }, {
+    name: 'mint-ui'
+  }];
+  const yaUiVuePackageData = require('ya-ui-vue/package.json');
+  const yaUiVueDeps = yaUiVuePackageData.dependencies;
+  // 挨个验证
+  thirdUiComponents.forEach((item) => {
+    const name = item.name;
+    if (deps[name] && deps[name] !== yaUiVueDeps[name]) {
+      console.warn(`${name} current version is ${deps[name]}, the recommend version should be ${yaUiVueDeps[name]}`);
+    }
+  });
 });
+
+
 
 /**
  * 准备环境
