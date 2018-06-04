@@ -79,8 +79,9 @@ prepareShellEnv(() => {
   // 按序执行
   for (let i = 0; i < exeCommands.length; i++) {
     const exp = exeCommands[i];
-    const code = shell.exec(exp).code;
-    if (code !== 0) {
+    const result = shell.exec(exp);
+    if (result.code !== 0) {
+      console.error(result.stderr);
       shell.exit(1);
       break;
     }
