@@ -26,7 +26,6 @@ prepareShellEnv(() => {
   }]; 
 
   let preferInstallCommand = ''; // yarn or npm
-  console.log(2222);
 
   envCommands.some((command) => {
     const names = command.name.split('|');
@@ -34,7 +33,12 @@ prepareShellEnv(() => {
     if (!names.some((name, i) => {
       const isTrue = shell.which(name);
       if (isTrue) {
-        const version = shell.exec(`${name} ${versions[i]}`, { silent: true });
+        let version = shell.exec(`${name} ${versions[i]}`, { silent: true });
+        if (name === 'python') {
+          if (!version.toString()) {
+            version = version.stderr;
+          }
+        }
         shell.echo(`${name}: ${version}`);
       }
       if ((name === 'yarn' || name === 'npm') && !preferInstallCommand) {
@@ -91,35 +95,30 @@ async function prepareShellEnv(callback) {
   if (!isShellReady) {
     const exec = util.promisify(require('child_process').exec);
     const shellVersion = devDeps.shelljs;
-    console.log('aaa', shellVersion);
-    console.log(`yarn add shelljs@${shellVersion} --dev`);
     const packageJson = path.resolve(__dirname, '../package.json');
     const packageBak = path.resolve(__dirname, '../package.bak');
     // backup package.json
     fs.renameSync(packageJson, packageBak);
     try {
       const result = await exec(`yarn add shelljs@${shellVersion} --dev`);
+      fs.renameSync(packageBak, packageJson);
       if (!result.stderr) {
-        console.log(888);
         console.log(result.stdout);
-        fs.renameSync(packageBak, packageJson);
         callback();
       } else {
-        console.log(123);
         console.error(result.stderr);
-        console.log(234, result);
         secondTry();
       }
     } catch(evt) {
       console.error(evt.stderr);
-      console.log(999);
+      fs.renameSync(packageBak, packageJson);
       secondTry();
     }
     async function secondTry() {
       try {
-        const result = await exec(`npm install shelljs@${shellVersion}`);
+        const result = await exec(`npm install shelljs@${shellVersion} --save-exact`);
         if (!result.stderr) {
-          fs.renameSync(packageBak, packageJson);
+          // fs.renameSync(packageBak, packageJson);
           callback();
         } else {
           console.error(result.stderr);
