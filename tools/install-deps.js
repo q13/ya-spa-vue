@@ -112,8 +112,9 @@ prepareShellEnv(() => {
   // 挨个验证
   thirdUiComponents.forEach((item) => {
     const name = item.name;
-    if (deps[name] && deps[name] !== yaUiVueDeps[name]) {
-      console.warn(`${name} current version is ${deps[name]}, the recommend version should be ${yaUiVueDeps[name]}`);
+    const realVersion = require(`${name}/package.json`).version;
+    if (deps[name] && realVersion !== yaUiVueDeps[name]) {
+      console.warn(`${name} current version is ${realVersion}, the recommend version should be ${yaUiVueDeps[name]}`);
     }
   });
 });
