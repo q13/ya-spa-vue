@@ -16,3 +16,4 @@ dll/
 *.sln
 .vscode
 package-lock.json
+yarn.lock
