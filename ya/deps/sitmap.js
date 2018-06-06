@@ -78,6 +78,8 @@ async function extractRoutes(records: any, all: any) {
       if (!validData.isValid) {
         route.props = validData.props;
       }
+      // 保存pageName
+      route.meta.pageName = pageName;
       // 存储页面缓存名称
       if (isCache !== undefined) {
         if (isCache) {
