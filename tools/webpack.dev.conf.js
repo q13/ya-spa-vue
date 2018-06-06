@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
+var packageData = require('../package.json');
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -56,7 +57,10 @@ module.exports = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.ejs',
       inject: false,
-      scripts: envScripts
+      scripts: envScripts,
+      window: {
+        APP_NAME: packageData.name // 项目二级path名
+      }
     }),
   ].concat(isDllExists ? [
     new webpack.DllReferencePlugin({

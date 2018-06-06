@@ -81,7 +81,8 @@ function getWebpackConfig(options) {
         },
         chunksSortMode: 'dependency',
         window: {
-          APP_DOMAIN: options.appDomain // 域名写入window对象 
+          APP_DOMAIN: options.appDomain, // 域名写入window对象 
+          APP_NAME: options.appName // 项目二级path名
         }
       }),
       // keep module.id stable when vender modules does not change

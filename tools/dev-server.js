@@ -11,6 +11,7 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var packageData = require('../package.json');
 
 // port 
 let argvs = {}
@@ -100,6 +101,7 @@ app.use(hotMiddleware)
 // app.use(staticPath, express.static('./static'))
 const SRC_DEPS_PATH = path.resolve(__dirname, '../src/deps/public') // 伺服/src/deps/public目录
 app.use('/static', express.static(SRC_DEPS_PATH))
+app.use('/' + packageData.name  + '/static', express.static(SRC_DEPS_PATH)) // 同时伺服二级path，保持和线上访问路径一致
 
 const DLL_PATH = path.resolve(__dirname, '../dll'); // Dll伺服
 fsExtra.ensureDirSync(DLL_PATH); // DLL目录，开发阶段存储打包dll文件
