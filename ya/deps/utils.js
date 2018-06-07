@@ -802,7 +802,7 @@ export const setAppData = function (key, value) {
   const appData = getAppStore('data');
   var newValue;
   if (Object.prototype.toString.call(appData[key]) === '[object Object]' && Object.prototype.toString.call(value) === '[object Object]') {
-    newValue = merge(appData[key], value);
+    newValue = merge({}, appData[key], value);
   } else if (Object.prototype.toString.call(appData[key]) === '[object Array]' && Object.prototype.toString.call(value) === '[object Array]') {
     newValue = appData[key].concat(value);
   } else {
