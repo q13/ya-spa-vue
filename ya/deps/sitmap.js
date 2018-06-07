@@ -396,6 +396,8 @@ async function extractNavs(records: any, all: any) {
     // if (record.navVisible) {
     let nav = {
       uid: record.uid,
+      isCache: record.isCache,
+      pageName: record.route.meta.pageName,
       text: record.navText,
       navVisible: record.navVisible !== false,
       breadcrumbVisible: record.breadcrumbVisible !== false,
