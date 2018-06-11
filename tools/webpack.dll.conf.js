@@ -21,7 +21,9 @@ const dlls = [
   'element-ui',
   'mint-ui',
   'axios',
-  'store'
+  'store',
+  'antd',
+  'antd-mobile'
 ];
 
 module.exports = {
@@ -36,6 +38,10 @@ module.exports = {
     "dll": dlls
   },
   devtool: 'source-map', // chrome devtool更友好
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
+  },
   plugins: [
     new UglifyJsParallelPlugin({
       workers: os.cpus().length,
