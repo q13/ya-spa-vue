@@ -23,7 +23,9 @@ const dlls = [
   'axios',
   'store',
   'antd',
-  'antd-mobile'
+  'antd-mobile',
+  '@antv',
+  'ya-ui-vue'
 ];
 
 module.exports = {
