@@ -29,7 +29,7 @@ function getWebpackConfig(options) {
         // loader: 'base64-font-loader',
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          // limit: 10000,
           name: 'plus/fonts/[hash].[ext]'
         }
       })
