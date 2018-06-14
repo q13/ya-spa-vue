@@ -17,7 +17,8 @@
     "flow": "./node_modules/.bin/flow check",
     "flowserver": "./node_modules/.bin/flow server",
     "stopflow": "./node_modules/.bin/flow stop",
-    "dep": "node tools/install-deps.js"
+    "dep": "node tools/install-deps.js",
+    "chunk": "node tools/make-chunks.js"
   },
   "repository": {
     "type": "git",
@@ -83,6 +84,7 @@
     "flow-typed": "2.2.0",
     "friendly-errors-webpack-plugin": "1.1.3",
     "fs-extra": "5.0.0",
+    "glob": "7.1.2",
     "happypack": "4.0.1",
     "html-loader": "0.5.1",
     "html-webpack-plugin": "2.30.1",
