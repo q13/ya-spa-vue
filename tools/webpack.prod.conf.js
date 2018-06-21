@@ -79,7 +79,21 @@ function getWebpackConfig(options) {
           collapseWhitespace: true,
           removeAttributeQuotes: true
         },
-        chunksSortMode: 'dependency',
+        // chunksSortMode: 'dependency',
+        chunks: ['manifest', 'vendor', 'vendor-vue', 'app'],
+        chunksSortMode: 'manual',
+        // chunksSortMode: function (chunk1, chunk2) {
+        //   var orders = ['manifest', 'vendor', 'vendor-vue', 'app'];
+        //   var order1 = orders.indexOf(chunk1.names[0]);
+        //   var order2 = orders.indexOf(chunk2.names[0]);
+        //   if (order1 > order2) {
+        //     return 1;
+        //   } else if (order1 < order2) {
+        //     return -1;
+        //   } else {
+        //     return 0;
+        //   }
+        // },
         window: {
           APP_DOMAIN: options.appDomain, // 域名写入window对象 
           APP_NAME: options.appName // 项目二级path名
@@ -108,10 +122,22 @@ function getWebpackConfig(options) {
           )
         }
       }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor-vue',
+        chunks: ['vendor'],
+        minChunks: function (module, count) {
+          if (/vue\.esm\.js/.test(module.resource) ||
+            /vue-router\.esm\.js/.test(module.resource) ||
+            /vuex\.esm\.js/.test(module.resource)) {
+            return true;
+          }
+          return false;
+        }
+      }),
       // 提取 webpack runtime、module manifest到单独文件
       new webpack.optimize.CommonsChunkPlugin({
         name: 'manifest',
-        chunks: ['vendor']
+        chunks: ['vendor', 'vendor-vue']
       }),
       new ParseAtFlagPlugin(),
       new RemoveStrictFlagPlugin()
