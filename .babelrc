@@ -3,10 +3,11 @@
     ["env", { 
       "modules": false,
       "targets": {
-        "browsers": ["> 1%", "last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.0"]
+        // "browsers": ["> 1%", "last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.0"]
+        "browsers": ["last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.4"]
       },
-      "useBuiltIns": true,
-      "loose": false
+      "useBuiltIns": true
+      // "loose": false
     }],
     "stage-0",
     "react"
