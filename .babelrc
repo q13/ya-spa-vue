@@ -6,7 +6,8 @@
         // "browsers": ["> 1%", "last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.0"]
         "browsers": ["last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.4"]
       },
-      "useBuiltIns": true
+      // "useBuiltIns": true
+      "useBuiltIns": "usage"
       // "loose": false
     }],
     "stage-0",
