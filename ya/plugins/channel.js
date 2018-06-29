@@ -85,6 +85,8 @@ Channel.install = function (Vue) {
         result = result.concat(shareChannels.map(({ channel }) => {
           return channel;
         }));
+        // 去重
+        result = [...new Set(result)];
         return result;
       };
       /**

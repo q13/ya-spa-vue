@@ -59,7 +59,7 @@ export default (resolve) => {
     });
     // 创建app应用
     resolve(merge({
-      name: 'app',
+      name: 'App',
       template: `<div id="app" :class="domClass">
         <div class="app-body">
           <!-- activity component view -->

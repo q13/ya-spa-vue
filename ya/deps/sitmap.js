@@ -92,6 +92,44 @@ async function extractRoutes(records: any, all: any) {
           isCache = true;
         }
       }
+      // Normalize channel TODO: 只考虑了activity模式，fragement暂不考虑
+      const channel = record.channel;
+      let channelNormalized = [];
+      if (channel) {
+        if (typeof (channel) === 'string') {
+          channelNormalized = channelNormalized.concat(channel.split(','));
+        } else if (Array.isArray(channel)) {
+          channelNormalized = channelNormalized.concat(channel);
+        } else {
+          channelNormalized = channel; // 被认为是Object
+        }
+      }
+      let hasMainKey = false;
+      if (Array.isArray(channelNormalized)) {
+        channelNormalized = channelNormalized.reduce((pv, cv) => {
+          if (cv === 'main') {
+            hasMainKey = true;
+          }
+          return {
+            ...pv,
+            [cv]: cv
+          };
+        }, {});
+      } else {
+        if (channelNormalized['main']) {
+          hasMainKey = true;
+        }
+      }
+      const channelKeys = Object.keys(channelNormalized);
+      if (channelKeys.length) {
+        if (!hasMainKey) { // 如果没有main key，默认取第一个key为main key
+          channelNormalized['main'] = channelNormalized[channelKeys[0]];
+        }
+      } else {
+        channelNormalized = {};
+      }
+      // 附加page信道
+      channelNormalized['page'] = 'page';
       // 替换component
       let pageComponent = null;
       let originComponent = validData.isValid ? route.component : () => import('+/pages/nil/index');
@@ -122,15 +160,22 @@ async function extractRoutes(records: any, all: any) {
           return new Promise((resolve) => {
             originComponent().then((mod) => {
               const exportDefault = mod.default;
+              const cptName = pageName + 'Default'; // 设置页面实现name
               async function asyncFnCreate() {
                 // 页面创建钩子, TODO: fragment模式未考虑
                 const param = await hook.exe('create@component', {});
-                exportDefault(resolve, param);
+                exportDefault(resolve, {
+                  name: cptName,
+                  param
+                });
               }
               if (typeof exportDefault === 'function') {
                 asyncFnCreate();
               } else {
-                resolve(exportDefault);
+                resolve({
+                  name: cptName,
+                  ...exportDefault
+                });
               }
             }).catch((evt) => { // 支付宝第一次扫码可能出现加载失败问题，提示信息后退并刷新
               console.error(evt);
@@ -180,7 +225,8 @@ async function extractRoutes(records: any, all: any) {
           return h('div', [coreRendered ? h(ActivityComponent, { // 放到子元素里渲染不会触发重复page transition
             props: {
               ...validData.props,
-              ...this.$attr
+              ...this.$attr,
+              channel: channelNormalized
             },
             ref: 'index',
             class: className
