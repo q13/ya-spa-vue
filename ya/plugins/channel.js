@@ -749,7 +749,6 @@ Channel.install = function (Vue) {
       this.$chan = null;
       this.$getGlobalChannelName = null;
       this.$isValidChannel = null;
-      console.log('beforeDestory', channelStore);
     }
   });
   // 定义合并逻辑
@@ -822,7 +821,6 @@ export function stateShareMixin({
           }
         });
       }
-      console.log('result', result);
       return result;
     };
     created = function () {
