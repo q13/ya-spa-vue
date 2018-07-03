@@ -1055,3 +1055,113 @@ export const vueCtorTransformer = function (originComponent) {
     });
   };
 };
+
+/**
+  * 获得输入框光标位置
+  * @param {Element} inputDom - :text/textarea element ref
+  * @returns {{text: string, start: number, end: number}}
+  */
+export const getCursorPosition = function (inputDom) {
+  var rangeData = {
+    text: '',
+    start: 0,
+    end: 0
+  };
+  inputDom.focus(); // 重复设置textarea focus在ie下会导致window.scroll定位错乱，所有保证最多设置一次
+  if (inputDom.setSelectionRange) { // W3C
+    rangeData.start = inputDom.selectionStart;
+    rangeData.end = inputDom.selectionEnd;
+    rangeData.text = (rangeData.start !== rangeData.end)
+      ? inputDom.value.substring(rangeData.start, rangeData.end)
+      : '';
+  } else if (document.selection) { // IE
+    var i;
+    var oS = document.selection.createRange();
+    var oR = document.body.createTextRange();
+    oR.moveToElementText(inputDom);
+    rangeData.text = oS.text;
+    rangeData.bookmark = oS.getBookmark();
+    // object.moveStart(sUnit [, iCount])
+    // Return Value: Integer that returns the number of units moved.
+    for (i = 0; oR.compareEndPoints('StartToStart', oS) < 0 && oS.moveStart('character', -1) !== 0; i++) {
+      // Why? You can alert(inputDom.value.length)
+      if (inputDom.value.charAt(i) === '\n') {
+        i++;
+      }
+    }
+    rangeData.start = i;
+    rangeData.end = rangeData.text.length + rangeData.start;
+  }
+  return rangeData;
+};
+/**
+* 设置输入框光标位置
+* @param {Element} inputDom - :text/textarea element ref
+* @param rangeData
+*/
+export const setCursorPosition = function (inputDom, rangeData) {
+  var start,
+    end;
+  if (!rangeData) {
+    alert('必须定义光标位置');
+    return false;
+  }
+  start = rangeData.start;
+  end = rangeData.end;
+
+  if (inputDom.setSelectionRange) { // W3C
+    inputDom.focus(); // 重复设置textarea focus在ie下会导致window.scroll定位错乱，所有保证最多设置一次
+    inputDom.setSelectionRange(start, end);
+  } else if (inputDom.createTextRange) { // IE
+    var oR = inputDom.createTextRange();
+
+    // Fix IE from counting the newline characters as two seperate characters
+    var breakPos,
+      i;
+    // 设置断点位置
+    breakPos = start;
+    for (i = 0; i < breakPos; i++) {
+      if (inputDom.value.charAt(i).search(/[\r\n]/) !== -1) {
+        start = start - 0.5;
+      }
+    }
+    // 设置断点位置
+    breakPos = end;
+    for (i = 0; i < breakPos; i++) {
+      if (inputDom.value.charAt(i).search(/[\r\n]/) !== -1) {
+        end = end - 0.5;
+      }
+    }
+
+    oR.moveEnd('textedit', -1);
+    oR.moveStart('character', start);
+    oR.moveEnd('character', end - start);
+    oR.select();
+  }
+};
+/**
+ * 将内容追加到光标的位置，并保持光标位置不动
+ * @param {Element} inputDom - :text/textarea element ref
+ * @param text
+ */
+export const appendTextAtCursor = function (inputDom, text) {
+  var val = inputDom.value;
+  var rangeData = getCursorPosition(inputDom);
+  inputDom.value = val.slice(0, rangeData.start) + text + val.slice(rangeData.end);
+  // 重设光标位置
+  setCursorPosition(inputDom, Object.assign(rangeData, {
+    start: rangeData.start + text.length,
+    end: rangeData.start + text.length
+  }));
+};
+/**
+ * 焦点至于输入框最后
+ * @param {Element} inputDom - :text/textarea element ref
+ */
+export const focusAtLast = function (inputDom) {
+  var val = inputDom.value;
+  setCursorPosition(inputDom, {
+    start: val.length,
+    end: val.length
+  });
+};
