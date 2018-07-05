@@ -8,8 +8,10 @@ import clientStore from 'store';
 import storeExpirePlugin from 'store/plugins/expire';
 import Channel from '../plugins/channel';
 import Mapping from '../plugins/mapping';
+import Service from '../plugins/service';
 Vue.use(Channel);
 Vue.use(Mapping);
+Vue.use(Service);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
