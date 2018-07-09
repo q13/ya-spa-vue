@@ -25,6 +25,7 @@
     //flow server开启多个等时候会报require not found错误。可以先运行flow stop。如仍有问题可注释掉 使用 flow check/flow server命令检测
     "flowtype-errors/show-errors": 2,
     "no-new": 0, // 可以直接使用new关键字
+    "no-debugger": 0, // 可以存在debugger
     "no-extra-boolean-cast": 0, // 可直接使用!!
     "semi": 0, //关闭分号约束
     "space-before-function-paren": [
