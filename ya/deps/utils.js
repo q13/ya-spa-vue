@@ -98,6 +98,8 @@ export const c2s = (() => {
     // ajaxOptions.headers = {
     //   'Content-Type': 'application/x-www-form-urlencoded'
     // }
+    // 可继承通过setAppData设置的入参
+    const defaultRequestData = getAppData('$defaultRequestData');
     let data = ajaxOptions.data || {
       header: null,
       body: {}
@@ -108,8 +110,22 @@ export const c2s = (() => {
       // pageNum: 1,
       ...(data.header || {})
     };
+    // 浅覆盖
+    if (defaultRequestData && defaultRequestData.header) {
+      data.header = {
+        ...defaultRequestData.header,
+        ...data.header
+      };
+    }
     if (typeof data.body === 'undefined') {
       data.body = {};
+    }
+    // 浅覆盖
+    if (defaultRequestData && defaultRequestData.body) {
+      data.body = {
+        ...defaultRequestData.body,
+        ...data.body
+      };
     }
     // data过滤string参数类型的前后空格
     const dataMainKeys = ['header', 'body'];
