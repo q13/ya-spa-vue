@@ -14,6 +14,7 @@ import {
 } from './deps/store';
 import hook from './deps/hook';
 import {
+  getAppStore,
   setAppStore
 } from './deps/utils';
 import {
@@ -35,11 +36,15 @@ export default (resolve) => {
     const store = new Vuex.Store(initStore());
     // 设置全局引用
     setAppStore('store', store);
+    setAppStore('data', window.__data__ || {});
     const { appData, routerOptions = {} } = await hook.exe('prepare@app', { // prepare可能会用到store引用
       store
     });
     // 设置全局引用
-    setAppStore('data', appData);
+    setAppStore('data', {
+      ...getAppStore('data'),
+      ...appData
+    });
     // 设置vuex state存储
     store.commit('appDataChange', appData);
     // 初始化router
