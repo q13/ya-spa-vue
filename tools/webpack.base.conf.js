@@ -27,6 +27,7 @@ module.exports = {
       '@': resolve('src'),
       '+': resolve('ya'),
       'ya-ui-vue': resolve('node_modules/ya-ui-vue')
+      // 'core-js/library/modules': 'core-js/modules'
     }
   },
   module: {
