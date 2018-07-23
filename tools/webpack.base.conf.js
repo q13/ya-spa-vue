@@ -110,6 +110,13 @@ module.exports = {
       /moment[\/\\]locale$/,
       /zh-cn/
     ),
+    // new webpack.NormalModuleReplacementPlugin(
+    //   /core-js\\library\\modules/,
+    //   function (resource) {
+    //     resource.request = resource.request.replace(/library\\modules\\/, 'modules\\');
+    //     console.log('aaa', resource.request);
+    //   }
+    // ),
     new HappyPack({
       loaders: ['babel-loader']
     })
