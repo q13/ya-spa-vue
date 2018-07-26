@@ -62,7 +62,14 @@ function getWebpackConfig(options) {
       }),
       new OptimizeCSSPlugin({
         cssProcessorOptions: {
-          safe: true
+          map: {
+            inline: false
+          },
+          safe: true,
+          autoprefixer: {
+            add: true,
+            browsers: ["last 2 versions", "last 3 iOS versions", "not ie <= 8", "Android >= 4.4"] // 必须得加上，和babelrc保存一直，否则产出的css文件会丢失私有前缀
+          }
         }
       }),
       // generate dist index.html with correct asset hash for caching.

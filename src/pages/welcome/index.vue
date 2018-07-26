@@ -13,5 +13,12 @@ export default {
 </script>
 
 <style>
-
+.welcome-body {
+  animation: 1s rainbow;
+}
+@keyframes rainbow {
+  0% { background: #c00; }
+  50% { background: orange; }
+  100% { background: yellowgreen; }
+}
 </style>
