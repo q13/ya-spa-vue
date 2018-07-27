@@ -19,7 +19,8 @@
     "R": true,
     "Vue": true,
     "YKU": true,
-    "kb": true
+    "kb": true,
+    "AlipayJSBridge": true
   },
   "rules": {
     //flow server开启多个等时候会报require not found错误。可以先运行flow stop。如仍有问题可注释掉 使用 flow check/flow server命令检测
