@@ -275,6 +275,12 @@ export const c2s = (() => {
     if (autoTry) { // 自动发起的尝试请求不响应用户逻辑
       onSuccess = onError = () => {};
     }
+    /**
+     * 获取返回信息
+     */
+    const getResMessage = (header) => {
+      return errorCode[header.code] || header.message || '系统开小差了！';
+    };
     const ajaxPromise = new Promise((resolve, reject) => {
       /**
        * axios resolve回调处理
@@ -297,11 +303,11 @@ export const c2s = (() => {
               if (!isSilent) { // 业务错误自动提示
                 if (alert) {
                   alert({
-                    message: errorCode[header.code] || header.message || '系统开小差了！',
+                    message: getResMessage(header),
                     iconType: 'error'
                   });
                 } else {
-                  window.alert(errorCode[header.code] || header.message || '系统开小差了！');
+                  window.alert(getResMessage(header));
                 }
               }
               header.success = false;
@@ -343,12 +349,14 @@ export const c2s = (() => {
           if (typeof response.data === 'string') {
             data = {
               header: {
+                code: 0,
                 message: response.data
               }
             };
           } else {
             data = response.data || {
               header: {
+                code: 0,
                 message: response.status + ' ' + response.statusText
               }
             };
@@ -375,11 +383,11 @@ export const c2s = (() => {
             if (!isSilent) {
               if (alert) {
                 alert({
-                  message: header.message,
+                  message: getResMessage(header),
                   iconType: 'error'
                 });
               } else {
-                window.alert(header.message);
+                window.alert(getResMessage(header));
               }
             }
           } else {
@@ -387,11 +395,11 @@ export const c2s = (() => {
             if (!isSilent) {
               if (alert) {
                 alert({
-                  message: header.message,
+                  message: getResMessage(header),
                   iconType: 'error'
                 });
               } else {
-                window.alert(header.message);
+                window.alert(getResMessage(header));
               }
             }
             // }
