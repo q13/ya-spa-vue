@@ -98,7 +98,7 @@ exports.getAsyncChunkNames = function () {
       result = result.concat(chunks);
     }
   }
-  console.log('收集的chunks列表：' + result.join('，'));
+  console.log('收集的chunks列表：' + JSON.stringify(result, null, 4));
   return result;
 };
 /**
