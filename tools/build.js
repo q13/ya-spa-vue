@@ -1,7 +1,6 @@
 process.env.NODE_ENV = 'production';
-process.on('unhandledRejection', (up) => {
-  // console.error('unhandledRejection', up);
-  throw up;
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
 // return;
 let appEnv = process.argv[2];
