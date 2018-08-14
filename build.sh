@@ -5,4 +5,4 @@
 # rm -rf node_modules/ya-ui-vue;
 # npm install --unsafe-perm --quiet --no-progress;
 node tools/install-deps.js;
-node tools/build.js --app-env=$1 --app-name=$2 --api-domain=$3;
+UV_THREADPOOL_SIZE=100 node --max_old_space_size=8192 tools/build.js --app-env=$1 --app-name=$2 --api-domain=$3;
