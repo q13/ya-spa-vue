@@ -11,6 +11,8 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const packageData = require('../package.json');
+const appVersion = packageData.version;
 
 var envScripts = [];
 if (utils.isNeedReact()) {
@@ -103,7 +105,11 @@ function getWebpackConfig(options) {
         // },
         window: {
           APP_DOMAIN: options.appDomain, // 域名写入window对象 
-          APP_NAME: options.appName // 项目二级path名
+          APP_NAME: options.appName, // 项目二级path名
+          APP_ENV: options.appEnv,
+          APP_VERSION: appVersion, // 项目版本号
+          STATIC_PATH: `/${options.appName}/static/`, // 静态目录伺服地址，同域下
+          STATIC_CDN: `${options.publicPath}static/` // 静态目录伺服地址，通过cdn请求，会造成跨域问题，注意手动添加版本号
         }
       }),
       // keep module.id stable when vender modules does not change

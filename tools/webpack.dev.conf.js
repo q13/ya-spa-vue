@@ -10,6 +10,7 @@ var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 var ParseAtFlagPlugin = require('./webpack-parse-at-flag')
 var RemoveStrictFlagPlugin = require('./webpack-remove-strict-flag')
 var packageData = require('../package.json');
+const appVersion = packageData.version;
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -59,7 +60,11 @@ module.exports = merge(baseWebpackConfig, {
       inject: false,
       scripts: envScripts,
       window: {
-        APP_NAME: packageData.name // 项目二级path名
+        APP_NAME: packageData.name, // 项目二级path名
+        APP_ENV: 'local',
+        APP_VERSION: appVersion, // 项目版本号
+        STATIC_PATH: '/static/', // 静态目录伺服地址，同域下
+        STATIC_CDN: '/static/' // 占位
       }
     }),
   ].concat(isDllExists ? [
