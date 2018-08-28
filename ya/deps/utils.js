@@ -32,6 +32,14 @@ if (apiDomain !== '/') {
 }
 export const API_DOMAIN = apiDomain; // 接口域名
 /**
+ * 判断value是否为函数类型
+ * @param {*} value - The data
+ * @return {Boolean} - true/false
+ */
+export const isFunction = function (value) {
+  return Object.prototype.toString.call(value) === '[object Function]';
+};
+/**
  * 前后端异步通信接口
  * @param {Object} ajaxOptions - axios config
  * @param {Object} options - 自定义配置项
@@ -99,7 +107,15 @@ export const c2s = (() => {
     //   'Content-Type': 'application/x-www-form-urlencoded'
     // }
     // 可继承通过setAppData设置的入参
-    const defaultRequestData = getAppData('$defaultRequestData');
+    let defaultRequestData = getAppData('$defaultRequestData');
+    if (isFunction(defaultRequestData)) {
+      defaultRequestData = defaultRequestData({
+        ...ajaxOptions
+      });
+    }
+    if (!defaultRequestData) { // == false的情况
+      defaultRequestData = {};
+    }
     let data = ajaxOptions.data || {
       header: null,
       body: {}
