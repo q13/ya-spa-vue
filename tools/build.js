@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'production';
 process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at:', p, 'reason:', reason);
+  console.error('Unhandled Rejection at:', p, 'reason:', reason);
 });
 // return;
 let appEnv = process.argv[2];
@@ -9,7 +9,7 @@ let appDomain = process.argv[4];
 let publicPath = process.argv[5];
 let isTest = process.argv[6];
 if (!appEnv || !appName || !appDomain) {
-  console.log('缺少必要运行参数（--app-env,--app-name,--app-domain）');
+  console.error('缺少必要运行参数（--app-env,--app-name,--app-domain）');
   return;
 }
 // 提取参数值
