@@ -32,6 +32,9 @@ hook('create@app', function (options) {
   });
 
   return {
-    template
+    template,
+    mounted() {
+      console.log('route', this.$route);
+    }
   };
 });
