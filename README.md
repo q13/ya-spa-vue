@@ -1,4 +1,4 @@
-# A Ya SPA template
+# A SPA bootstrap for yazuo powered by vue
 
 一套基于vue搭建的项目模板，适应多终端平台（PC/Mobile）。
 
